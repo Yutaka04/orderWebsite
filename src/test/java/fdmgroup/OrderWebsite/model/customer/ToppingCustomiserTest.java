@@ -28,7 +28,7 @@ public class ToppingCustomiserTest {
 	
 	@Test
 	public void containTopping_returnTrue_whenToppingIsNotNull() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingList = new ToppingService();
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
@@ -60,7 +60,7 @@ public class ToppingCustomiserTest {
 	@Test
 	public void setLessTopping_returnGetLessToppingTrueAndToppingModifierZeroPointOne_whenToppingIsAllButGrassJelly() {
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingList = new ToppingService();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-2)).getToppingName();
 		toppingCustomiser.setToppingName(toppingTest);
@@ -73,7 +73,7 @@ public class ToppingCustomiserTest {
 	
 	@Test
 	public void setToppingMass_return65_whenCupSizeIsMAndToppingIsTrueAndLessToppingIsTrue() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingList = new ToppingService();
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-2)).getToppingName();
@@ -92,7 +92,7 @@ public class ToppingCustomiserTest {
 	
 	@Test
 	public void setToppingMass_return120_whenCupSizeIsMAndToppingIsTrueAndLessToppingIsFalse() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingList = new ToppingService();
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();
@@ -110,7 +110,7 @@ public class ToppingCustomiserTest {
 	
 	@Test
 	public void setToppingMass_return100_whenCupSizeIsLAndToppingIsTrueAndLessToppingIsTrue() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingList = new ToppingService();
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();
@@ -130,7 +130,7 @@ public class ToppingCustomiserTest {
 	
 	@Test
 	public void setToppingMass_return200_whenCupSizeIsLAndToppingIsTrueAndLessToppingIsFalse() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingList = new ToppingService();
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();

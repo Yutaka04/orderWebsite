@@ -1,4 +1,4 @@
-package fdmgroup.OrderWebsite.model.store;
+package fdmgroup.OrderWebsite.model.customer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
