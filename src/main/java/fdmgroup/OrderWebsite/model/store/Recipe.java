@@ -33,7 +33,7 @@ public class Recipe {
 	@Column(name = "Condiment Amount")
 	private double condimentAmount;
 	@Column(name = "Topping Mass")
-	private int toppingPortion;
+	private double toppingMass;
 	@Column(name = "Syrup Name")
 	private String syrup;
 	@Column(name = "Syrup Amount")
@@ -43,8 +43,8 @@ public class Recipe {
 	@Column(name = "Juice Amount")
 	private double juiceAmount;
 	
-	private ToppingCustomiser toppingCustomiser;
-	private CupSize cupSize;
+	private ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
+	private CupSize cupSizeSelector = toppingCustomiser.getCupSizeSelector();
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_RECIPEID")
@@ -54,16 +54,12 @@ public class Recipe {
 		super();
 	}
 	
-	public Recipe(String drinkName, String recipeSize, String tea, String sweetener, double sweetenerAmt, 
+	public Recipe(String drinkName, String tea, String sweetener, double sweetenerAmt, 
 			String condiment,String syrup,double syrupAmt, String juice, double juiceAmt) {
         this.drinkName = drinkName;
         this.sweetener = sweetener;
-        this.recipeSize = recipeSize;
-        if(sweetener.equals("Sugar")) {
-        	setSweetenerAmount(sweetenerAmt);
-        }else {
-        	setHoneyAmount();
-        }
+        setRecipeSize();
+        setSweetenerAmount(sweetenerAmt);
         this.condiment= condiment;
         if(condiment.equals("Yakult")) {
         	this.condimentAmount = setYakultBottle();
@@ -78,6 +74,7 @@ public class Recipe {
         if(!juice.isEmpty()) {
         	setJuiceAmount(juiceAmt);
         }
+        this.toppingMass = getToppingCustomiser().getToppingMass();
     }
 
 	public String getDrinkName() {
@@ -92,11 +89,10 @@ public class Recipe {
 		return recipeSize;
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	public void setRecipeSize() {
-		if (toppingCustomiser.getToppingStatus() == true && cupSize.equals("M")) {
+		if (toppingCustomiser.getToppingStatus() == true && cupSizeSelector.getCupSize().equals("M")) {
 			this.recipeSize = "S";
-		}else if (toppingCustomiser.getToppingStatus() == false && cupSize.equals("L")){
+		}else if (toppingCustomiser.getToppingStatus() == false && cupSizeSelector.getCupSize().equals("L")){
 			this.recipeSize = "L";
 		}else {
 			this.recipeSize = "M";
@@ -107,6 +103,10 @@ public class Recipe {
 		return sweetener;
 	}
 
+	public double getSweetenerAmount() {
+		return sweetenerAmount;
+	}
+	
 	public void setSweetener(String sweetener) {
 		this.sweetener = sweetener;
 	}
@@ -117,18 +117,19 @@ public class Recipe {
 
 	public void setCondiment(String condiment) {
 		this.condiment = condiment;
+		if(condiment.equals("Yakult")) {
+        	this.condimentAmount = setYakultBottle();
+        }else if(condiment.equals("Creamer")) {
+        	this.condimentAmount = setCreamerAmount();
+        }
 	}
 
-	public int getToppingPortion() {
-		return toppingPortion;
+	public double getCondimentAmount() {
+		return condimentAmount;
 	}
-
-	public void setToppingPortion(int toppingPortion) {
-		this.toppingPortion = toppingPortion;
-	}
-
+	
 	public double setYakultBottle() {
-		if(recipeSize.equals("M")) {
+		if(recipeSize.equals("S")) {
 			return 1;
 		}else if(recipeSize.equals("L")) {
 			return 2;
@@ -138,9 +139,9 @@ public class Recipe {
 	}
 
 	public double setHoneyAmount() {
-		if(recipeSize.equals("S")) {
+		if(getRecipeSize().equals("S")) {
 			return 1.4;
-		}else if(recipeSize.equals("L")) {
+		}else if(getRecipeSize().equals("L")) {
 			return 2.8;
 		}else {
 			return 2.0;
@@ -148,13 +149,17 @@ public class Recipe {
 	}
 
 	public void setSweetenerAmount(double sweetenerAmount) {
-		this.sweetenerAmount = sweetenerAmount;
+		if(sweetener.equals("Sugar")) {
+        	this.sweetenerAmount = sweetenerAmount;
+        }else if(sweetener.equals("Honey")){
+        	this.sweetenerAmount = setHoneyAmount();
+        }
 	}
 
 	public double setCreamerAmount() {
-		if(recipeSize.equals("S")) {
+		if(getRecipeSize().equals("S")) {
 			return 3;
-		}else if(recipeSize.equals("L")) {
+		}else if(getRecipeSize().equals("L")) {
 			return 6;
 		}else {
 			return 4;
@@ -167,6 +172,7 @@ public class Recipe {
 
 	public void setTea(String tea) {
 		this.tea = tea;
+		setTeaVolume();
 	}
 
 	public double getTeaVolume() {
@@ -174,9 +180,9 @@ public class Recipe {
 	}
 
 	public void setTeaVolume() {
-		if(recipeSize.equals("S")) {
+		if(getRecipeSize().equals("S")) {
 			this.teaVolume = 350;
-		}else if(recipeSize.equals("L")) {
+		}else if(getRecipeSize().equals("L")) {
 			this.teaVolume = 700;
 		}else {
 			this.teaVolume = 500;
@@ -217,6 +223,22 @@ public class Recipe {
 
 	public int getRecipeId() {
 		return recipeId;
+	}
+
+	public ToppingCustomiser getToppingCustomiser() {
+		return toppingCustomiser;
+	}
+
+	public void setToppingCustomiser(ToppingCustomiser toppingCustomiser) {
+		this.toppingCustomiser = toppingCustomiser;
+	}
+
+	public CupSize getCupSizeSelector() {
+		return cupSizeSelector;
+	}
+
+	public void setCupSizeSelector(CupSize cupSizeSelector) {
+		this.cupSizeSelector = cupSizeSelector;
 	}
 	
 	

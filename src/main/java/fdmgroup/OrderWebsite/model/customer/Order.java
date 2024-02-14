@@ -1,5 +1,6 @@
 package fdmgroup.OrderWebsite.model.customer;
 
+import fdmgroup.OrderWebsite.model.store.Recipe;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +41,7 @@ public class Order {
 	private HoneyLevel honeyLevelSelector;
 	private SugarLevel sugarLevelSelector;
 	private IceLevel iceLevelSelector;
-	private ToppingCustomiser toppingSelector;
+	private Recipe recipe;
 	
 	
 	@ManyToOne(cascade = CascadeType.ALL)
