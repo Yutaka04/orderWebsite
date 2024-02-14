@@ -4,13 +4,22 @@ import fdmgroup.OrderWebsite.model.customer.CupSize;
 import fdmgroup.OrderWebsite.model.customer.ToppingCustomiser;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
+/**
+ * Represents a recipe for creating a drink, specifying details such as
+ * ingredients, sizes, and customization options.
+ * @Author: Danny
+ */
+
+@Entity
+@Table(name = "Recipe")
 public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,18 +56,37 @@ public class Recipe {
 	private CupSize cupSizeSelector = toppingCustomiser.getCupSizeSelector();
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_RECIPEID")
+	@JoinColumn(name = "FK_DRINKID")
 	private Drink drink;
 	
+	/**
+     * Default constructor for JPA compliance.
+     */
 	public Recipe() {
 		super();
 	}
 	
-	public Recipe(String drinkName, String tea, String sweetener, double sweetenerAmt, 
+	/**
+     * Creates a new recipe with the specified details.
+     *
+     * @param drinkName       The name of the drink.
+     * @param tea             The type of liquid (tea) used in the recipe.
+     * @param sweetener       The sweetener used in the recipe.
+     * @param sweetenerAmt    The amount of sweetener used.
+     * @param condiment       The condiment used in the recipe.
+     * @param syrup           The syrup used in the recipe.
+     * @param syrupAmt        The amount of syrup used.
+     * @param juice           The juice used in the recipe.
+     * @param juiceAmt        The amount of juice used.
+	 * @return 
+     */
+	public void createRecipe(String drinkName, String tea, String sweetener, double sweetenerAmt, 
 			String condiment,String syrup,double syrupAmt, String juice, double juiceAmt) {
         this.drinkName = drinkName;
         this.sweetener = sweetener;
+        this.tea = tea;
         setRecipeSize();
+        setTeaVolume();
         setSweetenerAmount(sweetenerAmt);
         this.condiment= condiment;
         if(condiment.equals("Yakult")) {
@@ -241,5 +269,11 @@ public class Recipe {
 		this.cupSizeSelector = cupSizeSelector;
 	}
 	
+	public Drink getDrink() {
+		return drink;
+	}
 	
+	public void setDrink(Drink drink) {
+		this.drink = drink;
+	}
 }
