@@ -3,16 +3,30 @@ package fdmgroup.OrderWebsite.model.customer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a class that manages honey levels, including a chart of available levels,
+ * the current honey level, and a modifier associated with the selected honey level.
+ * @author = Danny
+ */
+
 public class HoneyLevel {
 	private List<String> honeyLevelChart;
 	private String honeyLevel;
 	private double honeyModifier;
 	
+	
+	/**
+     * Constructs a HoneyLevel object with the provided honey level chart.
+     * @param honeyLevelChart The chart of available honey levels.
+     */
 	public HoneyLevel(List<String> honeyLevelChart) {
 		super();
 		this.honeyLevelChart = honeyLevelChart;
 	}
-
+	
+	/**
+     * Default constructor that initializes the honey level chart with default values.
+     */
 	public HoneyLevel() {
 		honeyLevelChart = new ArrayList<String>();
 		honeyLevelChart.add("120%");
@@ -38,6 +52,11 @@ public class HoneyLevel {
 		return honeyModifier;
 	}
 
+	/**
+     * Sets the honey modifier based on the provided honey level.
+     * @param honeyLevel The honey level for which to determine the modifier.
+     * @return The calculated honey modifier.
+     */
 	public double setHoneyModifier(String honeyLevel) {
 		switch (honeyLevel) {
 		case "100%":

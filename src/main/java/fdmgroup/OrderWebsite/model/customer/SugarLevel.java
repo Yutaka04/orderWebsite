@@ -3,16 +3,29 @@ package fdmgroup.OrderWebsite.model.customer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a class that manages sugar levels, including a chart of available levels,
+ * the current sugar level, and a modifier associated with the selected sugar level.
+ * @author = Danny
+ */
 public class SugarLevel{
 	private List<String> sugarLevelChart;
 	private String sugarLevel;
 	private double sugarModifier;
 	
+	/**
+     * Constructs a SugarLevel object with the provided sugar level chart.
+     *
+     * @param sugarLevelChart The chart of available sugar levels.
+     */
 	public SugarLevel(List<String> sugarLevelChart) {
 		super();
 		this.sugarLevelChart = sugarLevelChart;
 	}
 
+	/**
+     * Default constructor that initializes the sugar level chart with default values.
+     */
 	public SugarLevel() {
 		sugarLevelChart = new ArrayList<String>();
 		sugarLevelChart.add("120%");
@@ -35,6 +48,11 @@ public class SugarLevel{
 		return sugarModifier;
 	}
 
+	/**
+     * Sets the sugar modifier based on the provided sugar level.
+     * @param sugarLevel The sugar level for which to determine the modifier.
+     * @return The calculated sugar modifier.
+     */
 	public double setSugarModifier(String sugarLevel) {
 		switch (sugarLevel) {
 		case "100%":

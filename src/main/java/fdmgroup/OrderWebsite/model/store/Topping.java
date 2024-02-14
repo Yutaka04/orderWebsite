@@ -6,14 +6,17 @@ import jakarta.persistence.Id;
 import fdmgroup.OrderWebsite.model.store.ToppingList;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 
-/* @Author: danny
- * Generates a topping class.
+/* 
+ * Represents a topping that can be added to a beverage, 
+ * specifying details such as name, cup size compatibility, and price.
+ * @author: Danny
 */
 
 @Entity
+@Table(name = "Table")
 public class Topping {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +28,12 @@ public class Topping {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private ToppingList toppingList;
 
+	/**
+     * Constructs a new Topping with the specified details.
+     * @param toppingName The name of the topping.
+     * @param cupSize     The cup size compatibility of the topping.
+     * @param price       The price of the topping.
+     */
 	public Topping(String toppingName, String cupSize, double price) {
 		super();
 		setToppingName(toppingName);
