@@ -38,7 +38,7 @@ public class HoneyLevel {
 		return honeyModifier;
 	}
 
-	public void setHoneyModifier(String honeyLevel) {
+	public double setHoneyModifier(String honeyLevel) {
 		switch (honeyLevel) {
 		case "100%":
 			this.honeyModifier = 1.0;
@@ -56,5 +56,6 @@ public class HoneyLevel {
 			this.honeyModifier =0.25;
 			break;
 		}
+		return getHoneyModifier();
 	}
 }

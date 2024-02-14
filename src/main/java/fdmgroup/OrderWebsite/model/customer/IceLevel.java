@@ -39,7 +39,7 @@ public class IceLevel{
 		return iceModifier;
 	}
 
-	public void setIceModifier(String iceLevel) {
+	public double setIceModifier(String iceLevel) {
 		switch (iceLevel) {
 		case "Normal Ice":
 			this.iceModifier = 0.0;
@@ -54,6 +54,7 @@ public class IceLevel{
 			this.iceModifier =0.2;
 			break;
 		}
+		return getIceModifier();
 	}
 	
 }
