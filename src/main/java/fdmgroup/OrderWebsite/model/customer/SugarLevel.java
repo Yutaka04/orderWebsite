@@ -35,7 +35,7 @@ public class SugarLevel{
 		return sugarModifier;
 	}
 
-	public void setSugarModifier(String sugarLevel) {
+	public double setSugarModifier(String sugarLevel) {
 		switch (sugarLevel) {
 		case "100%":
 			this.sugarModifier = 1.0;
@@ -56,5 +56,6 @@ public class SugarLevel{
 			this.sugarModifier =0.0;
 			break;
 		}
+		return getSugarModifier();
 	}
 }

@@ -23,7 +23,10 @@ public class ToppingCustomiser{
 	private double toppingModifer;
 	private boolean toppingStatus;
 	private boolean lessTopping;
+	private double toppingMass;
 
+	private CupSize cupSize;
+	
 	public ToppingCustomiser() {
 		super();
 	}
@@ -76,4 +79,30 @@ public class ToppingCustomiser{
 	public int getToppingNameId() {
 		return toppingNameId;
 	}
+
+	public double getToppingMass() {
+		return toppingMass;
+	}
+
+	public void setToppingMass() {
+		if(getToppingStatus() == false) {
+			this.toppingMass = 0;
+		}else {
+			if(getLessTopping() == true) {
+				if(cupSize.getCupSize().equals("M")) {
+					this.toppingMass = 65;
+				}else {
+					this.toppingMass = 100;
+				}
+			}else {
+				if(cupSize.getCupSize().equals("M")) {
+					this.toppingMass = 120;
+				}else {
+					this.toppingMass = 200;
+				}
+			}
+		}
+	}
+	
+	
 }
