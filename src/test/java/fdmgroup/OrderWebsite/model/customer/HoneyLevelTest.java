@@ -1,15 +1,11 @@
 package fdmgroup.OrderWebsite.model.customer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import fdmgroup.OrderWebsite.model.customer.SugarLevel;
 
 public class HoneyLevelTest {
 
