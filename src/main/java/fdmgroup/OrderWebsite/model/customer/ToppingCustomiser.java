@@ -1,14 +1,6 @@
 package fdmgroup.OrderWebsite.model.customer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fdmgroup.OrderWebsite.model.store.Topping;
-import fdmgroup.OrderWebsite.model.store.ToppingList;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 /* @Author: danny
  * Generates a list of toppings.
@@ -16,19 +8,18 @@ import jakarta.persistence.Id;
 
 @Entity
 public class ToppingCustomiser{
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int toppingNameId;
 	private String toppingName;
 	private double toppingModifer;
-	private boolean toppingStatus;
+	private boolean toppingStatus = false;
 	private boolean lessTopping;
 	private double toppingMass;
-
-	private CupSize cupSize;
+	
+	private CupSize cupSizeSelector;
 	
 	public ToppingCustomiser() {
 		super();
+		this.cupSizeSelector = new CupSize();
+		this.toppingName = null;
 	}
 
 	public String getToppingName() {
@@ -38,6 +29,10 @@ public class ToppingCustomiser{
 	public void setToppingName(String toppingName) {
 		this.toppingName = toppingName;
 	}
+	
+//	public void setToppingName() {
+//		this.toppingName = null;
+//	}
 	
 	public double getToppingModifer() {
 		return toppingModifer;
@@ -68,20 +63,21 @@ public class ToppingCustomiser{
 	public void setToppingStatus() {
 		if(getToppingName() == null) {
 			this.toppingStatus = false;
+		}else {
+			this.toppingStatus = true;
 		}
-		this.toppingStatus = true;
 	}
 	
 	public boolean getToppingStatus() {
 		return toppingStatus;
 	}
-	
-	public int getToppingNameId() {
-		return toppingNameId;
-	}
 
 	public double getToppingMass() {
 		return toppingMass;
+	}
+	
+	public CupSize getCupSizeSelector() {
+		return cupSizeSelector;
 	}
 
 	public void setToppingMass() {
@@ -89,13 +85,13 @@ public class ToppingCustomiser{
 			this.toppingMass = 0;
 		}else {
 			if(getLessTopping() == true) {
-				if(cupSize.getCupSize().equals("M")) {
+				if(cupSizeSelector.getCupSize().equals("M")) {
 					this.toppingMass = 65;
 				}else {
 					this.toppingMass = 100;
 				}
 			}else {
-				if(cupSize.getCupSize().equals("M")) {
+				if(cupSizeSelector.getCupSize().equals("M")) {
 					this.toppingMass = 120;
 				}else {
 					this.toppingMass = 200;
