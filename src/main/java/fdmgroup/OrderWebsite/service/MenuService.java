@@ -15,9 +15,6 @@ public class MenuService {
 	@Autowired
 	private MenuRepository menuRepo;
 	
-	@Autowired
-	private ToppingService toppingService;
-	
 	//Add new drinks & its prices & its recipes at different sizes
 	public boolean addNewDrink(Drink drink) {
 		Optional<Drink> drinkOptional = menuRepo.findByDrinkName(drink.getDrinkName());
@@ -54,11 +51,4 @@ public class MenuService {
 		return -1;
 	}
 	
-	public double getPricebyCupSize(Topping topping,String cupSize) {
-		if(menuRepo.findByToppingName(toppingService.getToppingByToppingName(topping.getToppingName()).get().getCupSize().equals(cupSize)) {
-			return menuRepo.findByDrinkName(drink.getDrinkName()).get().getPrice();
-		}
-		System.err.println("Not found");
-		return -1;
-	}
 }

@@ -22,7 +22,7 @@ class RecipeTest {
 	public void setRecipeSize_returnS_whenCupSizeIsMAndToppingIsTrue() {
 		Random random = new Random();
 		Recipe recipe = new Recipe();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		recipe.getCupSizeSelector();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		recipe.getToppingCustomiser().setToppingName(toppingTest);
@@ -50,7 +50,7 @@ class RecipeTest {
 	public void setRecipeSize_returnM_whenCupSizeIsLAndToppingIsTrue() {
 		Random random = new Random();
 		Recipe recipe = new Recipe();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		recipe.getCupSizeSelector();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		recipe.getCupSizeSelector().upsize();
@@ -78,7 +78,7 @@ class RecipeTest {
 	@Test
 	public void setCondimentAmount_return1_whenCupSizeIsMAndToppingIsTrueAndCondimentisYakult() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		recipe.getToppingCustomiser().setToppingName(toppingTest);
@@ -111,7 +111,7 @@ class RecipeTest {
 	@Test
 	public void setCondimentAmount_return1Point5_whenCupSizeIsLAndToppingIsTrueAndCondimentisYakult() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		recipe.getToppingCustomiser().setToppingName(toppingTest);
@@ -145,7 +145,7 @@ class RecipeTest {
 	@Test
 	public void setSweetenerAmount_return1Point4_whenCupSizeIsMAndToppingIsTrueAndSweetenerIsHoney() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		double sweetenerTest = random.nextDouble();
@@ -181,7 +181,7 @@ class RecipeTest {
 	@Test
 	public void setSweetenerAmount_return2_whenCupSizeIsLAndToppingIsTrueAndSweetenerIsHoney() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		double sweetenerTest = random.nextDouble();
@@ -220,7 +220,7 @@ class RecipeTest {
 	@Test
 	public void setSyrupAmount_returnAmt1Mock_whenCupSizeIsMAndToppingIsTrue() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		String syrupTest = random.toString();
@@ -261,7 +261,7 @@ class RecipeTest {
 	@Test
 	public void setSyrupAmount_returnAmt1Mock_whenCupSizeIsLAndToppingIsTrue() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		String syrupTest = random.toString();
@@ -303,7 +303,7 @@ class RecipeTest {
 	@Test
 	public void setCondimentAmount_return3_whenCupSizeIsMAndToppingIsTrueAndCondimentIsCreamer() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		recipe.getToppingCustomiser().setToppingName(toppingTest);
@@ -336,7 +336,7 @@ class RecipeTest {
 	@Test
 	public void setCondimentAmount_return4_whenCupSizeIsLAndToppingIsTrueAndCondimentIsCreamer() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		recipe.getToppingCustomiser().setToppingName(toppingTest);
@@ -368,7 +368,7 @@ class RecipeTest {
 	@Test
 	public void setTea_return350_whenCupSizeIsMAndToppingIsTrue() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		String teaTest = random.toString();
@@ -403,7 +403,7 @@ class RecipeTest {
 	@Test
 	public void setTeaVolume_return500_whenCupSizeIsLAndToppingIsTrue() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		String teaTest = random.toString();
@@ -438,7 +438,7 @@ class RecipeTest {
 	@Test
 	public void setSweetenerAmountreturnAmt1Mock_whenCupSizeIsMAndToppingIsTrueAndSweetenerIsSugar() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		double sweetenerTest = random.nextDouble();
@@ -474,7 +474,7 @@ class RecipeTest {
 	@Test
 	public void setSweetenerAmountreturnAmt1Mock_whenCupSizeIsLAndToppingIsTrueAndSweetenerIsSugar() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		double sweetenerTest = random.nextDouble();
@@ -511,7 +511,7 @@ class RecipeTest {
 	@Test
 	public void setJuiceAmount_returnAmt1Mock_whenCupSizeIsMAndToppingIsTrue() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		String juiceTest = random.toString();
@@ -551,7 +551,7 @@ class RecipeTest {
 	@Test
 	public void setJuiceAmount_returnAmt1Mock_whenCupSizeIsLAndToppingIsTrue() {
 		Random random = new Random();
-		ToppingService toppingList = new ToppingService();
+		ToppingList toppingList = new ToppingList();
 		Recipe recipe = new Recipe();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
 		String juiceTest = random.toString();

@@ -23,7 +23,7 @@ public class Topping {
 	private double price;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	private ToppingService toppingList;
+	private ToppingList toppingList;
 
 	public Topping(String toppingName, String cupSize, double price) {
 		super();
@@ -60,11 +60,11 @@ public class Topping {
 		this.price = price;
 	}
 
-	public ToppingService getToppingList() {
+	public ToppingList getToppingList() {
 		return toppingList;
 	}
 
-	public void setToppingList(ToppingService toppingList) {
+	public void setToppingList(ToppingList toppingList) {
 		this.toppingList = toppingList;
 	}
 	
