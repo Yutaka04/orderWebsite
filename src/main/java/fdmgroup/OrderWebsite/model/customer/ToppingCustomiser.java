@@ -2,9 +2,11 @@ package fdmgroup.OrderWebsite.model.customer;
 
 import jakarta.persistence.Entity;
 
-/* @Author: danny
- * Generates a list of toppings.
-*/
+/**
+ * Represents a class that manages customization options for toppings, including the selected topping name,
+ * its modifier, customization status, and the mass of toppings based on the selected options.
+ * @author = Danny
+ */
 
 @Entity
 public class ToppingCustomiser{
@@ -16,6 +18,9 @@ public class ToppingCustomiser{
 	
 	private CupSize cupSizeSelector;
 	
+	/**
+     * Default constructor that initializes the topping customizer with default values.
+     */
 	public ToppingCustomiser() {
 		super();
 		this.cupSizeSelector = new CupSize();
@@ -30,10 +35,6 @@ public class ToppingCustomiser{
 		this.toppingName = toppingName;
 	}
 	
-//	public void setToppingName() {
-//		this.toppingName = null;
-//	}
-	
 	public double getToppingModifer() {
 		return toppingModifer;
 	}
@@ -42,7 +43,9 @@ public class ToppingCustomiser{
 		return lessTopping;
 	}
 
-//  Allows the customer to select if they want to have less toppings or not for all toppings except Grass Jelly.
+	 /**
+     * Sets the flag indicating whether less topping is selected, and calculates the associated modifier.
+     */
 	public void setLessTopping() {
 		if (getToppingStatus() == true && !getToppingName().equals("Grass Jelly")) {
 			this.lessTopping = true;
@@ -76,10 +79,18 @@ public class ToppingCustomiser{
 		return toppingMass;
 	}
 	
+	/**
+     * Retrieves the cup size selector associated with the topping customizer.
+     *
+     * @return The cup size selector.
+     */
 	public CupSize getCupSizeSelector() {
 		return cupSizeSelector;
 	}
-
+	
+	 /**
+     * Sets the mass of toppings based on the selected options.
+     */
 	public void setToppingMass() {
 		if(getToppingStatus() == false) {
 			this.toppingMass = 0;

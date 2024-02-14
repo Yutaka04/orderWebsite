@@ -14,7 +14,7 @@ public class CustomerRegistry {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int customerRegistry;
 	
-	@OneToMany(mappedBy = "customerRegistry" )
+	@OneToMany(mappedBy = "customer" )
 	private List<Customer> customers;
 	
 	public CustomerRegistry() {

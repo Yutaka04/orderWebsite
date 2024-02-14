@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -41,18 +42,19 @@ public class Order {
 	private HoneyLevel honeyLevelSelector;
 	private SugarLevel sugarLevelSelector;
 	private IceLevel iceLevelSelector;
-	private Recipe recipe;
 	
 	
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_CUSTOMERID")
 	private Customer customer;
 	
 	public Order() {
 		super();
 	}
 	
-	public Order(String drinkName, String cupSize, String sweetener, String sweetenerLevel, String iceLevel,String toppingName, boolean lessTopping) {
-		super();
+	public void createOrder(String drinkName, String cupSize, 
+			String sweetener, String sweetenerLevel, String iceLevel,
+			String toppingName, boolean lessTopping) {
 		this.drinkName = drinkName;
 		this.cupSize = cupSize;
 		this.sweetener = sweetener;
