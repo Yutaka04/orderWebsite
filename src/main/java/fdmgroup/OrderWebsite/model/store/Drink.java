@@ -2,16 +2,22 @@ package fdmgroup.OrderWebsite.model.store;
 
 import java.util.List;
 
-import fdmgroup.OrderWebsite.model.store.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+/**
+ * Represents a drink in the menu with details such as name, cup size, and price.
+ * @Author: Danny
+ */
 
 @Entity
+@Table(name = "Drink")
 public class Drink {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,13 +30,15 @@ public class Drink {
 	@Column(name = "Price")
 	private double price;
 	
-	@ManyToOne
-	@JoinColumn(name = "FK_RECIPEID")
+	@OneToMany(mappedBy = "drink")
 	private List<Recipe> recipes;
 	
 	@ManyToOne
 	private Menu menu;
 	
+	/**
+     * Default constructor for JPA compliance.
+     */
 	public Drink() {
 		super();
 	}
@@ -58,9 +66,17 @@ public class Drink {
 	public double getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	public List<Recipe> getRecipes(){
+		return recipes;
+	}
+	
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
 	}
 	
 }
