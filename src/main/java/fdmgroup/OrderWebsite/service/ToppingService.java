@@ -1,35 +1,30 @@
-package fdmgroup.OrderWebsite.model.store;
+package fdmgroup.OrderWebsite.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+import fdmgroup.OrderWebsite.model.store.Topping;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 /* @author: Danny
  * This generates a list of topping that contains the topping name and its price for each cup size.
  */
 
 
-@Entity
-public class ToppingList {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String toppingListId;
-	
+@Service
+public class ToppingService {
 	@OneToMany(mappedBy = "toppingList" )
 	private List<Topping> toppingList;
 	
-	public ToppingList(List<Topping> toppingList) {
+	public ToppingService(List<Topping> toppingList) {
 		super();
 		this.toppingList = toppingList;
 	}
 	
-	public ToppingList() {
+	public ToppingService() {
 		toppingList = new ArrayList<>();	
 		addTopping("Jumbo Pearl",1,1);
 		addTopping("Aloe Vera",1.2,1.6);
@@ -39,13 +34,6 @@ public class ToppingList {
 		addTopping("Grass Jelly",1.2,1.6);
 	}
 
-	public String getToppingListId() {
-		return toppingListId;
-	}
-
-	public void setToppingListId(String toppingListId) {
-		this.toppingListId = toppingListId;
-	}
 
 	public List<Topping> getToppingList() {
 		return toppingList;

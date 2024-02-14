@@ -18,7 +18,7 @@ class StoreRepositoryTest {
 
 	@Test
 	void addRecipe_returnsThreeRecipesInMenu() {
-		StoreRepository storeRepo = new StoreRepository();
+		MenuRepository storeRepo = new MenuRepository();
 		Random random = new Random();
 		String drinkNameTest = random.toString();
 		String teaTest = random.toString();
@@ -46,7 +46,7 @@ class StoreRepositoryTest {
 
 	@Test
 	void searchByDrinkName_returnsRecipeInMenu() {
-		StoreRepository storeRepo = new StoreRepository();
+		MenuRepository storeRepo = new MenuRepository();
 		Random random = new Random();
 		String drinkNameTest = random.toString();
 		String teaTest = random.toString();
@@ -72,7 +72,7 @@ class StoreRepositoryTest {
 	
 	@Test
 	void deleteRecipe_returnsEmptyMenu() {
-		StoreRepository storeRepo = new StoreRepository();
+		MenuRepository storeRepo = new MenuRepository();
 		Random random = new Random();
 		String drinkNameTest = random.toString();
 		String teaTest = random.toString();

@@ -1,7 +1,6 @@
-package fdmgroup.OrderWebsite.model.store;
+package fdmgroup.OrderWebsite.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,9 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ToppingListTest {
+import fdmgroup.OrderWebsite.model.store.Topping;
+
+public class ToppingServiceTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -19,15 +20,15 @@ public class ToppingListTest {
 	//To test if the table instantiated is the same as designed
 	@Test
 	public void addTopping_addsTwoToppingsOfDifferentSize_whenCalled() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingService = new ToppingService();
 		Random random = new Random();
 		String toppingNameTest = random.toString();
-		toppingList.addTopping(toppingNameTest, random.nextDouble(), random.nextDouble());
+		toppingService.addTopping(toppingNameTest, random.nextDouble(), random.nextDouble());
 		int count = 0;
 		Topping dummyTest = new Topping(random.toString(), "M", random.nextDouble());
 		Topping testM = dummyTest;
 		Topping testL = dummyTest;
-		for(Topping t:toppingList.getToppingList()) {
+		for(Topping t:toppingService.getToppingList()) {
 			if(t.getToppingName().equals(toppingNameTest)) {
 				if(t.getCupSize().equals("M")) {
 					testM = t;
@@ -47,7 +48,7 @@ public class ToppingListTest {
 	
 	@Test
 	public void ToppingList_returnToppings_whenCalled() {
-		ToppingList toppingList = new ToppingList();
+		ToppingService toppingService = new ToppingService();
 		List<Topping> toppingsTest = new ArrayList<>();
 		Topping topping1 = new Topping("Jumbo Pearl","M",1);
 		Topping topping2 = new Topping("Jumbo Pearl", "L",1);
@@ -74,11 +75,11 @@ public class ToppingListTest {
 		toppingsTest.add(topping11);
 		toppingsTest.add(topping12);
 		
-		assertEquals(toppingList.getToppingList().size(),toppingsTest.size());
-		for(int i = 0; i< toppingList.getToppingList().size();i++) {
-			assertEquals(toppingList.getToppingList().get(i).getToppingName(),toppingsTest.get(i).getToppingName());
-			assertEquals(toppingList.getToppingList().get(i).getCupSize(),toppingsTest.get(i).getCupSize());
-			assertEquals(toppingList.getToppingList().get(i).getPrice(),toppingsTest.get(i).getPrice(),0);
+		assertEquals(toppingService.getToppingList().size(),toppingsTest.size());
+		for(int i = 0; i< toppingService.getToppingList().size();i++) {
+			assertEquals(toppingService.getToppingList().get(i).getToppingName(),toppingsTest.get(i).getToppingName());
+			assertEquals(toppingService.getToppingList().get(i).getCupSize(),toppingsTest.get(i).getCupSize());
+			assertEquals(toppingService.getToppingList().get(i).getPrice(),toppingsTest.get(i).getPrice(),0);
 		}
 	}
 		
