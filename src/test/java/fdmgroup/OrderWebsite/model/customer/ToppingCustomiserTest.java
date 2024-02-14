@@ -3,16 +3,11 @@ package fdmgroup.OrderWebsite.model.customer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fdmgroup.OrderWebsite.model.customer.SugarLevel;
-import fdmgroup.OrderWebsite.model.store.CupSize;
-import fdmgroup.OrderWebsite.model.store.Recipe;
 import fdmgroup.OrderWebsite.model.store.ToppingList;
 
 public class ToppingCustomiserTest {
@@ -67,7 +62,7 @@ public class ToppingCustomiserTest {
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		ToppingList toppingList = new ToppingList();
 		Random random = new Random();
-		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();
+		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-2)).getToppingName();
 		toppingCustomiser.setToppingName(toppingTest);
 		toppingCustomiser.setToppingStatus();
 		toppingCustomiser.setLessTopping();
@@ -77,91 +72,105 @@ public class ToppingCustomiserTest {
 	}
 	
 	@Test
-	public void setToppingPortion_return65_whenCupSizeIsMAndToppingIsTrueAndLessToppingIsTrue() {
-		Recipe recipe = new Recipe();
+	public void setToppingMass_return65_whenCupSizeIsMAndToppingIsTrueAndLessToppingIsTrue() {
+		ToppingList toppingList = new ToppingList();
+		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
+		Random random = new Random();
+		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-2)).getToppingName();
+		toppingCustomiser.setToppingName(toppingTest);
+		toppingCustomiser.setToppingStatus();
+		toppingCustomiser.setLessTopping();
+		toppingCustomiser.setToppingMass();
+		
+		assertFalse(toppingCustomiser.getToppingName().isBlank());
+		assertTrue(toppingCustomiser.getToppingStatus());
+		assertTrue(toppingCustomiser.getLessTopping());
+		assertEquals("M",toppingCustomiser.getCupSizeSelector().getCupSize());
+		assertEquals(65,toppingCustomiser.getToppingMass(),0);
+		assertEquals(0.1,toppingCustomiser.getToppingModifer(),0);
+	}
+	
+	@Test
+	public void setToppingMass_return120_whenCupSizeIsMAndToppingIsTrueAndLessToppingIsFalse() {
 		ToppingList toppingList = new ToppingList();
 		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
 		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();
 		toppingCustomiser.setToppingName(toppingTest);
 		toppingCustomiser.setToppingStatus();
+		toppingCustomiser.setToppingMass();
+		
+		assertFalse(toppingCustomiser.getToppingName().isBlank());
+		assertTrue(toppingCustomiser.getToppingStatus());
+		assertFalse(toppingCustomiser.getLessTopping());
+		assertEquals("M",toppingCustomiser.getCupSizeSelector().getCupSize());
+		assertEquals(120,toppingCustomiser.getToppingMass(),0);
+		assertEquals(0.0,toppingCustomiser.getToppingModifer(),0);
+	}
+	
+	@Test
+	public void setToppingMass_return100_whenCupSizeIsLAndToppingIsTrueAndLessToppingIsTrue() {
+		ToppingList toppingList = new ToppingList();
+		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
+		Random random = new Random();
+		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();
+		toppingCustomiser.setToppingName(toppingTest);
+		toppingCustomiser.setToppingStatus();
+		toppingCustomiser.getCupSizeSelector().upsize();
 		toppingCustomiser.setLessTopping();
-		recipe.setRecipeSize();
-		recipe.setToppingPortion();
+		toppingCustomiser.setToppingMass();
 		
-		assertEquals("S",recipe.getRecipeSize());
-		assertEquals(65,recipe.getToppingPortion());
+		assertFalse(toppingCustomiser.getToppingName().isBlank());
+		assertTrue(toppingCustomiser.getToppingStatus());
+		assertTrue(toppingCustomiser.getLessTopping());
+		assertEquals("L",toppingCustomiser.getCupSizeSelector().getCupSize());
+		assertEquals(100,toppingCustomiser.getToppingMass(),0);
+		assertEquals(0.1,toppingCustomiser.getToppingModifer(),0);
 	}
 	
 	@Test
-	public void setToppingPortion_return120_whenCupSizeIsMAndToppingIsTrueAndLessToppingIsFalse() {
-		Recipe recipe = new Recipe();
-		ToppingCustomiser toppingSelector = recipe.getToppingSelector();
-		CupSize cupSizeSelector = recipe.getCupSizeSelector();
+	public void setToppingMass_return200_whenCupSizeIsLAndToppingIsTrueAndLessToppingIsFalse() {
+		ToppingList toppingList = new ToppingList();
+		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 		Random random = new Random();
-		String toppingTest = toppingSelector.getToppings().get(random.nextInt(toppingSelector.getToppings().size()-1));
-		toppingSelector.setTopping(toppingTest);
-		recipe.setToppingPortion();
+		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size()-1)).getToppingName();
+		toppingCustomiser.setToppingName(toppingTest);
+		toppingCustomiser.setToppingStatus();
+		toppingCustomiser.getCupSizeSelector().upsize();
+		toppingCustomiser.setToppingMass();
 		
-		assertEquals("M",cupSizeSelector.getCupSize());
-		assertEquals(120,recipe.getToppingPortion());
+		assertFalse(toppingCustomiser.getToppingName().isBlank());
+		assertTrue(toppingCustomiser.getToppingStatus());
+		assertFalse(toppingCustomiser.getLessTopping());
+		assertEquals("L",toppingCustomiser.getCupSizeSelector().getCupSize());
+		assertEquals(200,toppingCustomiser.getToppingMass(),0);
+		assertEquals(0.0,toppingCustomiser.getToppingModifer(),0);
 	}
 	
 	@Test
-	public void setToppingPortion_return100_whenCupSizeIsLAndToppingIsTrueAndLessToppingIsTrue() {
-		Recipe recipe = new Recipe();
-		ToppingCustomiser toppingSelector = recipe.getToppingSelector();
-		CupSize cupSizeSelector = recipe.getCupSizeSelector();
-		Random random = new Random();
-		String toppingTest = toppingSelector.getToppings().get(random.nextInt(toppingSelector.getToppings().size()-1));
-		cupSizeSelector.upsize();
-		toppingSelector.setTopping(toppingTest);
-		toppingSelector.setLessTopping();
-		recipe.setToppingPortion();
+	public void setToppingMass_return0_whenCupSizeIsMAndToppingIsFalseAndLessToppingIsFalse() {
+		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
+		toppingCustomiser.setToppingStatus();
+		toppingCustomiser.setToppingMass();
 		
-		assertEquals("L",cupSizeSelector.getCupSize());
-		assertEquals(100,recipe.getToppingPortion());
+		assertFalse(toppingCustomiser.getToppingStatus());
+		assertFalse(toppingCustomiser.getLessTopping());
+		assertEquals("M",toppingCustomiser.getCupSizeSelector().getCupSize());
+		assertEquals(0,toppingCustomiser.getToppingMass(),0);
+		assertEquals(0.0,toppingCustomiser.getToppingModifer(),0);
 	}
 	
 	@Test
-	public void setToppingPortion_return200_whenCupSizeIsLAndToppingIsTrueAndLessToppingIsFalse() {
-		Recipe recipe = new Recipe();
-		ToppingCustomiser toppingSelector = recipe.getToppingSelector();
-		CupSize cupSizeSelector = recipe.getCupSizeSelector();
-		Random random = new Random();
-		String toppingTest = toppingSelector.getToppings().get(random.nextInt(toppingSelector.getToppings().size()-1));
-		cupSizeSelector.upsize();
-		toppingSelector.setTopping(toppingTest);
-		recipe.setToppingPortion();
+	public void setToppingMass_return0_whenCupSizeIsLAndToppingIsFalseAndLessToppingIsFalse() {
+		ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
+		toppingCustomiser.setToppingStatus();
+		toppingCustomiser.getCupSizeSelector().upsize();
+		toppingCustomiser.setToppingMass();
 		
-		assertEquals("L",cupSizeSelector.getCupSize());
-		assertEquals(200,recipe.getToppingPortion());
-	}
-	
-	@Test
-	public void setToppingPortion_return0_whenCupSizeIsMAndToppingIsFalseAndLessToppingIsFalse() {
-		Recipe recipe = new Recipe();
-		ToppingCustomiser toppingSelector = recipe.getToppingSelector();
-		CupSize cupSizeSelector = recipe.getCupSizeSelector();
-		String toppingTest = null;
-		toppingSelector.setTopping(toppingTest);
-		recipe.setToppingPortion();
-		
-		assertEquals("M",cupSizeSelector.getCupSize());
-		assertEquals(0,recipe.getToppingPortion());
-	}
-	
-	@Test
-	public void setToppingPortion_return0_whenCupSizeIsLAndToppingIsFalseAndLessToppingIsFalse() {
-		Recipe recipe = new Recipe();
-		ToppingCustomiser toppingSelector = recipe.getToppingSelector();
-		CupSize cupSizeSelector = recipe.getCupSizeSelector();
-		String toppingTest = null;
-		cupSizeSelector.upsize();
-		toppingSelector.setTopping(toppingTest);
-		recipe.setToppingPortion();
-		
-		assertEquals("L",cupSizeSelector.getCupSize());
-		assertEquals(0,recipe.getToppingPortion());
+		assertFalse(toppingCustomiser.getToppingStatus());
+		assertFalse(toppingCustomiser.getLessTopping());
+		assertEquals("L",toppingCustomiser.getCupSizeSelector().getCupSize());
+		assertEquals(0,toppingCustomiser.getToppingMass(),0);
+		assertEquals(0.0,toppingCustomiser.getToppingModifer(),0);
 	}
 }
