@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import fdmgroup.OrderWebsite.model.customer.CupSize;
 import fdmgroup.OrderWebsite.model.customer.ToppingCustomiser;
@@ -21,13 +23,13 @@ import fdmgroup.OrderWebsite.repository.DrinkRepository;
 import fdmgroup.OrderWebsite.repository.RecipeRepository;
 
 
-@SpringBootTest
+@SpringBootTest(classes = {RecipeService.class})
 public class RecipeServiceTest {
 	
-	@Mock
+	@MockBean
     private DrinkRepository drinkRepo;
 
-    @Mock
+    @MockBean
     private RecipeRepository recipeRepo;
 
     @InjectMocks
@@ -80,16 +82,16 @@ public class RecipeServiceTest {
 		
 	}
 	
+	@Test
 	public void testDeleteRecipe() {
 		Random random = new Random();
 		String drinkNameTest = random.toString();
-		Recipe recipe = new Recipe();
+		List<Recipe> recipes = new ArrayList<>();
 		
-		Mockito.when(recipeRepo.findbyDrinkName(drinkNameTest)).thenReturn(Optional.of(recipe));
+		Mockito.when(recipeRepo.findbyDrinkName(drinkNameTest)).thenReturn(recipes);
 		
 		recipeService.deleteRecipeByDrinkName(drinkNameTest);
 		
-		
-		Mockito.verify(recipeRepo,Mockito.times(1)).delete(recipe);
+		Mockito.verify(recipeRepo,Mockito.times(1)).deleteAll(recipes);
 	}
 }

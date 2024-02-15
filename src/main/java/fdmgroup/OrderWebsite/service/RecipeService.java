@@ -1,5 +1,6 @@
 package fdmgroup.OrderWebsite.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,15 +54,11 @@ public class RecipeService {
 	
 	/**
      * Deletes all recipes associated with a specified drink by its name.
-     *
      * @param drinkName The name of the drink for which recipes should be deleted.
      */
 	public void deleteRecipeByDrinkName(String drinkName) {
-		Optional<Recipe> optionalRecipe;
-		do {
-			optionalRecipe = recipeRepo.findbyDrinkName(drinkName);
-			Recipe recipe = optionalRecipe.get();
-			recipeRepo.delete(recipe);
-		}while(optionalRecipe.isPresent()) ;
+		List<Recipe> recipes;
+		recipes = recipeRepo.findbyDrinkName(drinkName);
+		recipeRepo.deleteAll(recipes);
 	}
 }

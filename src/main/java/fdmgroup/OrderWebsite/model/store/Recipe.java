@@ -1,5 +1,7 @@
 package fdmgroup.OrderWebsite.model.store;
 
+import java.util.Optional;
+
 import fdmgroup.OrderWebsite.model.customer.CupSize;
 import fdmgroup.OrderWebsite.model.customer.ToppingCustomiser;
 import jakarta.persistence.CascadeType;
@@ -276,4 +278,13 @@ public class Recipe {
 	public void setDrink(Drink drink) {
 		this.drink = drink;
 	}
+	
+//	public Optional<Recipe> findRecipeByDrinkName(String drinkName){
+//		Optional<Recipe> recipe = null;
+//		for (Recipe r:drink.getRecipes()) {
+//			if (r.getDrinkName().equals(drinkName)) {
+//				recipe =  Optional.of(r);
+//			}
+//		}return recipe;
+//	}
 }
