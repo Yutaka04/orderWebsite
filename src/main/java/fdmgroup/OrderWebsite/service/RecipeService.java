@@ -39,7 +39,7 @@ public class RecipeService {
      */
 	public void createRecipe(String drinkName, String tea, String sweetener, double sweetenerAmt, 
 			String condiment,String syrup,double syrupAmt, String juice, double juiceAmt) {
-		Optional<Drink> optionalDrink = drinkRepo.findbyDrinkName(drinkName);
+		Optional<Drink> optionalDrink = drinkRepo.findByDrinkName(drinkName);
 		if(optionalDrink.isPresent()) {
 			Drink drink = optionalDrink.get();
 			Recipe recipe = new Recipe();

@@ -27,31 +27,31 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "recipeID")
 	private int recipeId;
-	@Column(name = "Drink Name")
+	@Column(name = "Drink_Name")
 	private String drinkName;
-	@Column(name = "Recipe Size")
+	@Column(name = "Recipe_Size")
 	private String recipeSize;
-	@Column(name = "Liquid Type")
+	@Column(name = "Liquid_Type")
 	private String tea;
 	@Column(name = "Volume")
 	private double teaVolume;
 	@Column(name = "Sweetener")
 	private String sweetener;
-	@Column(name = "Sweetener Amount")
+	@Column(name = "Sweetener_Amount")
 	private double sweetenerAmount;
 	@Column(name = "Condiment")
 	private String condiment;
-	@Column(name = "Condiment Amount")
+	@Column(name = "Condiment_Amount")
 	private double condimentAmount;
-	@Column(name = "Topping Mass")
+	@Column(name = "Topping_Mass")
 	private double toppingMass;
-	@Column(name = "Syrup Name")
+	@Column(name = "Syrup_Name")
 	private String syrup;
-	@Column(name = "Syrup Amount")
+	@Column(name = "Syrup_Amount")
 	private double syrupAmount;
-	@Column(name = "Juice Name")
+	@Column(name = "Juice_Name")
 	private String juice;
-	@Column(name = "Juice Amount")
+	@Column(name = "Juice_Amount")
 	private double juiceAmount;
 	
 	private ToppingCustomiser toppingCustomiser = new ToppingCustomiser();

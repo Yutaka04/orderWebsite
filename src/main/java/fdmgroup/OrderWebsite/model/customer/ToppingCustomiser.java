@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class ToppingCustomiser{
 	private String toppingName;
-	private double toppingModifer;
+	private double toppingModifier;
 	private boolean toppingStatus = false;
 	private boolean lessTopping;
 	private double toppingMass;
@@ -35,8 +35,8 @@ public class ToppingCustomiser{
 		this.toppingName = toppingName;
 	}
 	
-	public double getToppingModifer() {
-		return toppingModifer;
+	public double getToppingModifier() {
+		return toppingModifier;
 	}
 
 	public boolean getLessTopping() {
@@ -49,16 +49,16 @@ public class ToppingCustomiser{
 	public void setLessTopping() {
 		if (getToppingStatus() == true && !getToppingName().equals("Grass Jelly")) {
 			this.lessTopping = true;
-			this.toppingModifer = 0.1;
+			this.toppingModifier = 0.1;
 			System.out.println("Less topping portion selected.");
 		}else if(getToppingStatus() == true && getToppingName().equals("Grass Jelly")) {
 			this.lessTopping = false;
-			this.toppingModifer = 0.0;
+			this.toppingModifier = 0.0;
 			System.out.println("Grass Jelly Portion cannot be customised.");
 		}else {
 			System.out.println("No topping selected.");
 			this.lessTopping = false;
-			this.toppingModifer = 0.0;
+			this.toppingModifier = 0.0;
 		}
 	}
 
