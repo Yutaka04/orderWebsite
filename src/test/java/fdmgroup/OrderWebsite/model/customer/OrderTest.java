@@ -54,5 +54,7 @@ public class OrderTest {
 		assertTrue(orderTest.getToppingCustomiser().getToppingStatus());
 		assertTrue(orderTest.getToppingCustomiser().getLessTopping());
 		assertEquals(0.1,orderTest.getToppingModifier(),0);
+		assertEquals(toppingList.getPriceByToppingNameAndCupSize(toppingTest, cupSizeTest),orderTest.getToppingPrice(),0);
+		assertEquals(,orderTest.getDrinkPrice(),0);
 	}
 }

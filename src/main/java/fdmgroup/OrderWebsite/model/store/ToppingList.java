@@ -78,4 +78,20 @@ public class ToppingList {
 			toppingList.add(topping2);
 		}
 	}
+	
+	/**
+     * Retrieves a specific price based on the cup size and the topping name.
+     *
+     * @param toppingName --> The name of the topping.
+     * @param cupSize --> The cup size.
+     * @return double --> The price of the topping for the given cup size.
+     */
+	public double getPriceByToppingNameAndCupSize(String toppingName, String cupSize) {
+		for(Topping t:toppingList) {
+			if(t.getToppingName().equals(toppingName) && t.getCupSize().equals(cupSize)) {
+				return t.getPrice();
+			}
+		}
+		return 0;
+	}
 }

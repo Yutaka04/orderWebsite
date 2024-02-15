@@ -31,4 +31,20 @@ public class Menu {
 		this.menu= menu;
 	}
 	
+	public Drink getDrinkByDrinkName(String drinkName) {
+		for (Drink d:getMenu()) {
+			if(d.getDrinkName().equals(drinkName)) {
+				return d;
+			}
+		}return null;
+	}
+	
+	public double getPricebyDrinkNameAndCupSize(String drinkName,String cupSize) {
+		for (Drink d:getMenu()) {
+			if (d.getDrinkName().equals(drinkName)) {
+				return d.getPriceByCupSize(cupSize);
+			}
+		}return 0;
+	}
+	
 }

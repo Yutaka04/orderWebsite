@@ -1,5 +1,6 @@
 package fdmgroup.OrderWebsite.model.store;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,11 +29,13 @@ public class Drink {
 	private String drinkName;
 	@Column(name = "Cup_Size")
 	private String cupSize;
-	@Column(name = "Price")
-	private double price;
+	@Column(name = "Medium_Price")
+	private double priceMedium;
+	@Column(name = "Large_Price")
+	private double priceLarge;
 	
 	@OneToMany(mappedBy = "drink")
-	private List<Recipe> recipes;
+	private List<Recipe> recipes = new ArrayList<>();
 	
 	@ManyToOne
 	private Menu menu;
@@ -44,6 +47,12 @@ public class Drink {
 		super();
 	}
 
+	public void createDrink(String drinkName, double priceMedium, double priceLarge) {
+		this.drinkName = drinkName;
+		this.priceMedium = priceMedium;
+		this.priceLarge = priceLarge;
+	}
+	
 	public int getDrinkId() {
 		return drinkId;
 	}
@@ -64,12 +73,20 @@ public class Drink {
 		this.cupSize = cupSize;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getPriceMedium() {
+		return priceMedium;
 	}
 	
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPriceMedium(double price) {
+		this.priceMedium = price;
+	}
+	
+	public double getPriceLarge() {
+		return priceLarge;
+	}
+	
+	public void setPriceLarge(double price) {
+		this.priceLarge = price;
 	}
 	
 	public List<Recipe> getRecipes(){
@@ -87,6 +104,14 @@ public class Drink {
 				recipe = r;
 			}
 		}return recipe;
+	}
+	
+	public double getPriceByCupSize(String cupSize) {
+		if(cupSize.equals("M")) {
+			return getPriceMedium();
+		}else {
+			return getPriceLarge();
+		}
 	}
 	
 }

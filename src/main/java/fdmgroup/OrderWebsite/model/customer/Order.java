@@ -1,6 +1,9 @@
 package fdmgroup.OrderWebsite.model.customer;
 
+import fdmgroup.OrderWebsite.model.store.Drink;
+import fdmgroup.OrderWebsite.model.store.Menu;
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
+import fdmgroup.OrderWebsite.model.store.ToppingList;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +43,14 @@ public class Order {
 	private double toppingModifier;
 	@Column(name = "Topping Mass")
 	private double toppingMass;
+	@Column(name = "Order_Price")
+	private double orderPrice;
+	private double toppingPrice;
+	private double drinkPrice;
 
+	@ManyToOne
+	@JoinColumn(name= "drink_ID")
+	private Menu menu;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_CUSTOMERID")
@@ -53,6 +63,7 @@ public class Order {
 	private HoneyLevel honeyLevelSelector = new HoneyLevel();
 	private SugarLevel sugarLevelSelector = new SugarLevel();
 	private IceLevel iceLevelSelector = new IceLevel();
+	private ToppingList toppingList = new ToppingList();
 	private ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
 	private CupSize cupSizeSelector = toppingCustomiser.getCupSizeSelector();
 	
@@ -82,6 +93,9 @@ public class Order {
 		getToppingCustomiser().setToppingMass();
 		this.toppingMass = getToppingCustomiser().getToppingMass();
 		this.toppingModifier = getToppingCustomiser().getToppingModifier();
+		this.drinkPrice = menu.getPricebyDrinkNameAndCupSize(drinkName, cupSize);
+		this.toppingPrice = toppingList.getPriceByToppingNameAndCupSize(toppingName, cupSize);
+		this.orderPrice = drinkPrice + toppingPrice;
 	}
 
 	public int getOrderId() {
@@ -223,5 +237,17 @@ public class Order {
 
 	public void setCupSizeSelector(CupSize cupSizeSelector) {
 		this.cupSizeSelector = cupSizeSelector;
+	}
+
+	public double getDrinkPrice() {
+		return drinkPrice;
+	}
+	
+	public double getToppingPrice() {
+		return toppingPrice;
+	}
+	
+	public double getOrderPrice() {
+		return orderPrice;
 	}
 }

@@ -119,6 +119,10 @@ public class Recipe {
 		return recipeSize;
 	}
 
+	public void setRecipeSize(String recipeSize) {
+		this.recipeSize = recipeSize;
+	}
+	
 	public void setRecipeSize() {
 		if (toppingCustomiser.getToppingStatus() == true && cupSizeSelector.getCupSize().equals("M")) {
 			this.recipeSize = "S";
