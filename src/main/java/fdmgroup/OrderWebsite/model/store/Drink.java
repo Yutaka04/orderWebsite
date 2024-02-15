@@ -1,6 +1,7 @@
 package fdmgroup.OrderWebsite.model.store;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,9 +24,9 @@ public class Drink {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "drinkID")
 	private int drinkId;
-	@Column(name = "Drink Name")
+	@Column(name = "Drink_Name")
 	private String drinkName;
-	@Column(name = "Cup Size")
+	@Column(name = "Cup_Size")
 	private String cupSize;
 	@Column(name = "Price")
 	private double price;
@@ -79,5 +80,13 @@ public class Drink {
 		this.recipes = recipes;
 	}
 	
+	public Recipe getRecipeByRecipeSize(String recipeSize) {
+		Recipe recipe = new Recipe();
+		for (Recipe r:getRecipes()) {
+			if(r.getRecipeSize().equals(recipeSize)) {
+				recipe = r;
+			}
+		}return recipe;
+	}
 	
 }

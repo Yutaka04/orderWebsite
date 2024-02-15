@@ -33,7 +33,7 @@ public class DrinkService {
      * @throws IllegalArgumentException If the specified drink is not found.
      */
 	public void addRecipeToDrink(String drinkName, Recipe recipe) {
-		Optional<Drink> optionalDrink = drinkRepo.findbyDrinkName(drinkName);
+		Optional<Drink> optionalDrink = drinkRepo.findByDrinkName(drinkName);
 		if (optionalDrink.isPresent()) {
 			Drink drink = optionalDrink.get();
 			recipe.setDrink(drink);
@@ -54,7 +54,7 @@ public class DrinkService {
      * @throws IllegalArgumentException If the specified drink or recipe is not found.
      */
 	public void removeRecipeFromDrink(String drinkName, Recipe recipe) {
-		Optional<Drink> optionalDrink = drinkRepo.findbyDrinkName(drinkName);
+		Optional<Drink> optionalDrink = drinkRepo.findByDrinkName(drinkName);
 		if(optionalDrink.isPresent()) {
 			Drink drink = optionalDrink.get();
 			List<Recipe> recipes = drink.getRecipes();
@@ -72,5 +72,5 @@ public class DrinkService {
 		}
 		
 	}
-	
+
 }

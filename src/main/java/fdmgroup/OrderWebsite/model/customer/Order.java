@@ -1,7 +1,6 @@
 package fdmgroup.OrderWebsite.model.customer;
 
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
-import fdmgroup.OrderWebsite.model.store.Recipe;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,19 +31,16 @@ public class Order {
 	@Column(name = "Ice Level Modifier")
 	private double iceLevelModifier;
 	@Column(name = "Toppings Present?")
-	private boolean toppingPresent;
+	private boolean toppingStatus;
 	@Column(name = "Topping Name")
 	private String toppingName;
 	@Column(name = "Less Topping?")
 	private boolean lessTopping;
+	@Column(name = "Topping Modifier")
+	private double toppingModifier;
 	@Column(name = "Topping Mass")
 	private double toppingMass;
-	
-	private CupSize cupSizeSelector;
-	private HoneyLevel honeyLevelSelector;
-	private SugarLevel sugarLevelSelector;
-	private IceLevel iceLevelSelector;
-	
+
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_CUSTOMERID")
@@ -53,6 +49,12 @@ public class Order {
 	@OneToOne
 	@JoinColumn(name = "FK_ORDERRECIPEID")
 	private OrderRecipe orderRecipe;
+	
+	private HoneyLevel honeyLevelSelector = new HoneyLevel();
+	private SugarLevel sugarLevelSelector = new SugarLevel();
+	private IceLevel iceLevelSelector = new IceLevel();
+	private ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
+	private CupSize cupSizeSelector = toppingCustomiser.getCupSizeSelector();
 	
 	public Order() {
 		super();
@@ -72,13 +74,14 @@ public class Order {
 		}
 		this.iceLevel = iceLevel;
 		this.iceLevelModifier = iceLevelSelector.setIceModifier(iceLevel);
-		this.toppingName = toppingName;
-		if (toppingName.isEmpty()) {
-			this.toppingPresent = false;
-		}else {
-			this.toppingPresent = true;
-		}
-		this.lessTopping = lessTopping;
+		setToppingName(toppingName);
+		getToppingCustomiser().setToppingStatus();
+		this.toppingStatus = getToppingCustomiser().getToppingStatus();
+		getToppingCustomiser().setLessTopping();
+		this.lessTopping = getToppingCustomiser().getLessTopping();
+		getToppingCustomiser().setToppingMass();
+		this.toppingMass = getToppingCustomiser().getToppingMass();
+		this.toppingModifier = getToppingCustomiser().getToppingModifier();
 	}
 
 	public int getOrderId() {
@@ -122,7 +125,7 @@ public class Order {
 	}
 
 	public boolean isToppingPresent() {
-		return toppingPresent;
+		return toppingStatus;
 	}
 
 	public String getToppingName() {
@@ -131,6 +134,7 @@ public class Order {
 
 	public void setToppingName(String toppingName) {
 		this.toppingName = toppingName;
+		toppingCustomiser.setToppingName(toppingName);
 	}
 
 	public boolean isLessTopping() {
@@ -157,4 +161,67 @@ public class Order {
 		this.orderRecipe = orderRecipe;
 	}
 	
+	public double getSweetenerModifier() {
+		return sweetenerModifier;
+	}
+	
+	public double getIceLevelModifier() {
+		return iceLevelModifier;
+	}
+	
+	public double getToppingModifier() {
+		return toppingModifier;
+	}
+
+	public double getToppingMass() {
+		return toppingMass;
+	}
+	
+	public CupSize getCupSizeSelector() {
+		return cupSizeSelector;
+	}
+	
+	public HoneyLevel getHoneyLevelSelector() {
+		return honeyLevelSelector;
+	}
+	
+	public SugarLevel getSugarLevelSelector() {
+		return sugarLevelSelector;
+	}
+	
+	public IceLevel getIceLevelSelector() {
+		return iceLevelSelector;
+	}
+	
+	public ToppingCustomiser getToppingCustomiser() {
+		return toppingCustomiser;
+	}
+	
+	public String getSweetener() {
+		return sweetener;
+	}
+
+	public void setSweetener(String sweetener) {
+		this.sweetener = sweetener;
+	}
+
+	public void setHoneyLevelSelector(HoneyLevel honeyLevelSelector) {
+		this.honeyLevelSelector = honeyLevelSelector;
+	}
+	
+	public void setSugarLevelSelector(SugarLevel sugarLevelSelector) {
+		this.sugarLevelSelector = sugarLevelSelector;
+	}
+	
+	public void setIceLevelSelector(IceLevel iceLevelSelector) {
+		this.iceLevelSelector = iceLevelSelector;
+	}
+	
+	public void setToppingCustomiser(ToppingCustomiser toppingCustomiser) {
+		this.toppingCustomiser = toppingCustomiser;
+	}
+
+	public void setCupSizeSelector(CupSize cupSizeSelector) {
+		this.cupSizeSelector = cupSizeSelector;
+	}
 }
