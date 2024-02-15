@@ -1,5 +1,6 @@
 package fdmgroup.OrderWebsite.model.customer;
 
+import fdmgroup.OrderWebsite.model.store.OrderRecipe;
 import fdmgroup.OrderWebsite.model.store.Recipe;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Order {
@@ -47,6 +49,10 @@ public class Order {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_CUSTOMERID")
 	private Customer customer;
+	
+	@OneToOne
+	@JoinColumn(name = "FK_ORDERRECIPEID")
+	private OrderRecipe orderRecipe;
 	
 	public Order() {
 		super();
@@ -141,6 +147,14 @@ public class Order {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	
+	public OrderRecipe getOrderRecipe() {
+		return orderRecipe;
+	}
+	
+	public void setOrderRecipe(OrderRecipe orderRecipe) {
+		this.orderRecipe = orderRecipe;
 	}
 	
 }

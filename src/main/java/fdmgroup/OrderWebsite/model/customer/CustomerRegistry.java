@@ -3,12 +3,14 @@ package fdmgroup.OrderWebsite.model.customer;
 import java.util.List;
 
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+@Table(name = "Customer_Registry")
 public class CustomerRegistry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

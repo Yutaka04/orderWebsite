@@ -1,9 +1,10 @@
 package fdmgroup.OrderWebsite.service;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import fdmgroup.OrderWebsite.model.store.Drink;
 import fdmgroup.OrderWebsite.model.store.Recipe;
 import fdmgroup.OrderWebsite.repository.DrinkRepository;
@@ -21,10 +22,10 @@ import java.util.Optional;
 @SpringBootTest
 public class DrinkServiceTest {
 
-    @Mock
+    @MockBean
     private DrinkRepository drinkRepository;
 
-    @Mock
+    @MockBean
     private RecipeRepository recipeRepository;
 
     @InjectMocks
