@@ -8,19 +8,25 @@ import org.springframework.stereotype.Service;
 
 import fdmgroup.OrderWebsite.model.store.Drink;
 import fdmgroup.OrderWebsite.model.store.Topping;
+import fdmgroup.OrderWebsite.repository.DrinkRepository;
 import fdmgroup.OrderWebsite.repository.MenuRepository;
+import fdmgroup.OrderWebsite.repository.ToppingRepository;
 
 /**
  * Service class for managing the menu, including adding, deleting, and retrieving drinks.
- *
  * @author = Danny
- * @version 1.0
  */
 
 @Service
 public class MenuService {
 	@Autowired
 	private MenuRepository menuRepo;
+	
+	@Autowired
+	private DrinkRepository drinkRepo;
+	
+	@Autowired
+	private ToppingRepository toppingRepo;
 	
 	/**
      * Adds a new drink to the menu along with its prices and recipes at different sizes.
@@ -38,20 +44,6 @@ public class MenuService {
 	}
 	
 	/**
-     * Removes an existing drink from the menu.
-     * @param drink The drink to be removed from the menu.
-     */
-	public void deleteDrink(Drink drink) {
-		Optional<Drink> drinkOptional = menuRepo.findByDrinkName(drink.getDrinkName());
-		if (!drinkOptional.isEmpty()) {
-			menuRepo.delete(drink);
-			System.out.println(drink.getDrinkName() + " is removed.");
-		} else {
-			System.err.println(drink.getDrinkName() + " is not found in Menu");
-		}
-	}
-	
-	/**
      * Retrieves all drinks in the menu.
      * @return A list of all drinks in the menu.
      */
@@ -59,18 +51,11 @@ public class MenuService {
 		return menuRepo.findAll();
 	}
 	
-	/**
-     * Obtains the price of the drink based on the specified cup size.
-     * @param drink    The drink for which the price is to be obtained.
-     * @param cupSize  The cup size for which the price is requested.
-     * @return The price of the drink for the specified cup size, or -1 if the drink or cup size is not found.
-     */
-	public double getPricebyCupSize(Drink drink,String cupSize) {
-		if(menuRepo.findByDrinkName(drink.getDrinkName()).get().getCupSize().equals(cupSize)) {
-			return menuRepo.findByDrinkName(drink.getDrinkName()).get().getPrice();
-		}
-		System.err.println(drink.getDrinkName() + " does not exist");
-		return -1;
-	}
+
 	
+	//Get Drink Price
+	
+	//Get Topping Price
+	
+	//Get Total Price for the drink
 }

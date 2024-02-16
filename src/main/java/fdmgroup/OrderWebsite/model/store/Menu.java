@@ -1,5 +1,6 @@
 package fdmgroup.OrderWebsite.model.store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -29,6 +30,22 @@ public class Menu {
 
 	public void setMenu(List<Drink> menu) {
 		this.menu= menu;
+	}
+	
+	public Drink getDrinkByDrinkName(String drinkName) {
+		for (Drink d:getMenu()) {
+			if(d.getDrinkName().equals(drinkName)) {
+				return d;
+			}
+		}return null;
+	}
+	
+	public double getPricebyDrinkNameAndCupSize(String drinkName,String cupSize) {
+		for (Drink d:getMenu()) {
+			if (d.getDrinkName().equals(drinkName)) {
+				return d.getPriceByCupSize(cupSize);
+			}
+		}return 0;
 	}
 	
 }

@@ -1,9 +1,5 @@
 package fdmgroup.OrderWebsite.model.store;
 
-import java.util.Optional;
-
-import fdmgroup.OrderWebsite.model.customer.CupSize;
-import fdmgroup.OrderWebsite.model.customer.ToppingCustomiser;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +17,7 @@ import jakarta.persistence.JoinColumn;
  */
 
 @Entity
-@Table(name = "Recipe")
+@Table(name = "Drink")
 public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,9 +50,6 @@ public class Recipe {
 	@Column(name = "Juice_Amount")
 	private double juiceAmount;
 	
-	private ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
-	private CupSize cupSizeSelector = toppingCustomiser.getCupSizeSelector();
-	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_DRINKID")
 	private Drink drink;
@@ -68,44 +61,6 @@ public class Recipe {
 		super();
 	}
 	
-	/**
-     * Creates a new recipe with the specified details.
-     *
-     * @param drinkName       The name of the drink.
-     * @param tea             The type of liquid (tea) used in the recipe.
-     * @param sweetener       The sweetener used in the recipe.
-     * @param sweetenerAmt    The amount of sweetener used.
-     * @param condiment       The condiment used in the recipe.
-     * @param syrup           The syrup used in the recipe.
-     * @param syrupAmt        The amount of syrup used.
-     * @param juice           The juice used in the recipe.
-     * @param juiceAmt        The amount of juice used.
-	 * @return 
-     */
-	public void createRecipe(String drinkName, String tea, String sweetener, double sweetenerAmt, 
-			String condiment,String syrup,double syrupAmt, String juice, double juiceAmt) {
-        this.drinkName = drinkName;
-        this.sweetener = sweetener;
-        this.tea = tea;
-        setRecipeSize();
-        setTeaVolume();
-        setSweetenerAmount(sweetenerAmt);
-        this.condiment= condiment;
-        if(condiment.equals("Yakult")) {
-        	this.condimentAmount = setYakultBottle();
-        }else if(condiment.equals("Creamer")) {
-        	this.condimentAmount = setCreamerAmount();
-        }
-        this.syrup = syrup;
-        if(!syrup.isEmpty()) {
-        	setSyrupAmount(syrupAmt);
-        }
-        this.juice = juice;
-        if(!juice.isEmpty()) {
-        	setJuiceAmount(juiceAmt);
-        }
-        this.toppingMass = getToppingCustomiser().getToppingMass();
-    }
 
 	public String getDrinkName() {
 		return drinkName;
@@ -118,15 +73,9 @@ public class Recipe {
 	public String getRecipeSize() {
 		return recipeSize;
 	}
-
-	public void setRecipeSize() {
-		if (toppingCustomiser.getToppingStatus() == true && cupSizeSelector.getCupSize().equals("M")) {
-			this.recipeSize = "S";
-		}else if (toppingCustomiser.getToppingStatus() == false && cupSizeSelector.getCupSize().equals("L")){
-			this.recipeSize = "L";
-		}else {
-			this.recipeSize = "M";
-		}
+	
+	public void setRecipeSize(String recipeSize) {
+		this.recipeSize = recipeSize;
 	}
 
 	public String getSweetener() {
@@ -145,12 +94,12 @@ public class Recipe {
 		return condiment;
 	}
 
-	public void setCondiment(String condiment) {
+	public void setCondiment(String condiment, String recipeSize) {
 		this.condiment = condiment;
 		if(condiment.equals("Yakult")) {
         	this.condimentAmount = setYakultBottle();
         }else if(condiment.equals("Creamer")) {
-        	this.condimentAmount = setCreamerAmount();
+        	this.condimentAmount = setCreamerAmount(recipeSize);
         }
 	}
 
@@ -159,37 +108,37 @@ public class Recipe {
 	}
 	
 	public double setYakultBottle() {
-		if(recipeSize.equals("S")) {
+		if(getRecipeSize().equals("S")) {
 			return 1;
-		}else if(recipeSize.equals("L")) {
+		}else if(getRecipeSize().equals("L")) {
 			return 2;
 		}else {
 			return 1.5;
 		}
 	}
 
-	public double setHoneyAmount() {
-		if(getRecipeSize().equals("S")) {
+	public double setHoneyAmount(String recipeSize) {
+		if(recipeSize.equals("S")) {
 			return 1.4;
-		}else if(getRecipeSize().equals("L")) {
+		}else if(recipeSize.equals("L")) {
 			return 2.8;
 		}else {
 			return 2.0;
 		}
 	}
 
-	public void setSweetenerAmount(double sweetenerAmount) {
+	public void setSweetenerAmount(String sweetener, String recipeSize,double sweetenerAmount) {
 		if(sweetener.equals("Sugar")) {
         	this.sweetenerAmount = sweetenerAmount;
         }else if(sweetener.equals("Honey")){
-        	this.sweetenerAmount = setHoneyAmount();
+        	this.sweetenerAmount = setHoneyAmount(recipeSize);
         }
 	}
 
-	public double setCreamerAmount() {
-		if(getRecipeSize().equals("S")) {
+	public double setCreamerAmount(String recipeSize) {
+		if(recipeSize.equals("S")) {
 			return 3;
-		}else if(getRecipeSize().equals("L")) {
+		}else if(recipeSize.equals("L")) {
 			return 6;
 		}else {
 			return 4;
@@ -202,17 +151,16 @@ public class Recipe {
 
 	public void setTea(String tea) {
 		this.tea = tea;
-		setTeaVolume();
 	}
 
 	public double getTeaVolume() {
 		return teaVolume;
 	}
 
-	public void setTeaVolume() {
-		if(getRecipeSize().equals("S")) {
+	public void setTeaVolume(String recipeSize) {
+		if(recipeSize.equals("S")) {
 			this.teaVolume = 350;
-		}else if(getRecipeSize().equals("L")) {
+		}else if(recipeSize.equals("L")) {
 			this.teaVolume = 700;
 		}else {
 			this.teaVolume = 500;
@@ -223,8 +171,11 @@ public class Recipe {
 		return syrup;
 	}
 
-	public void setSyrup(String syrup) {
+	public void setSyrup(String syrup, double syrupAmt) {
 		this.syrup = syrup;
+		if(!syrup.isEmpty()) {
+			setSyrupAmount(syrupAmt);
+		}
 	}
 
 	public double getSyrupAmount() {
@@ -239,8 +190,11 @@ public class Recipe {
 		return juice;
 	}
 
-	public void setJuice(String juice) {
+	public void setJuice(String juice,double juiceAmt) {
 		this.juice = juice;
+		if(!juice.isEmpty()) {
+			setJuiceAmount(juiceAmt);
+		}
 	}
 
 	public double getJuiceAmount() {
@@ -253,22 +207,6 @@ public class Recipe {
 
 	public int getRecipeId() {
 		return recipeId;
-	}
-
-	public ToppingCustomiser getToppingCustomiser() {
-		return toppingCustomiser;
-	}
-
-	public void setToppingCustomiser(ToppingCustomiser toppingCustomiser) {
-		this.toppingCustomiser = toppingCustomiser;
-	}
-
-	public CupSize getCupSizeSelector() {
-		return cupSizeSelector;
-	}
-
-	public void setCupSizeSelector(CupSize cupSizeSelector) {
-		this.cupSizeSelector = cupSizeSelector;
 	}
 	
 	public Drink getDrink() {

@@ -1,8 +1,10 @@
 package fdmgroup.OrderWebsite.model.store;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import fdmgroup.OrderWebsite.model.customer.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Drink")
+@Table(name = "Menu")
 public class Drink {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,22 +30,20 @@ public class Drink {
 	private String drinkName;
 	@Column(name = "Cup_Size")
 	private String cupSize;
-	@Column(name = "Price")
-	private double price;
+	@Column(name = "Medium_Price")
+	private double priceMedium;
+	@Column(name = "Large_Price")
+	private double priceLarge;
 	
 	@OneToMany(mappedBy = "drink")
-	private List<Recipe> recipes;
+	private List<Recipe> recipes = new ArrayList<>();
 	
-	@ManyToOne
-	private Menu menu;
+	private List<Drink> menu;
 	
-	/**
-     * Default constructor for JPA compliance.
-     */
 	public Drink() {
 		super();
 	}
-
+	
 	public int getDrinkId() {
 		return drinkId;
 	}
@@ -64,12 +64,20 @@ public class Drink {
 		this.cupSize = cupSize;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getPriceMedium() {
+		return priceMedium;
 	}
 	
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPriceMedium(double price) {
+		this.priceMedium = price;
+	}
+	
+	public double getPriceLarge() {
+		return priceLarge;
+	}
+	
+	public void setPriceLarge(double price) {
+		this.priceLarge = price;
 	}
 	
 	public List<Recipe> getRecipes(){
@@ -80,13 +88,7 @@ public class Drink {
 		this.recipes = recipes;
 	}
 	
-	public Recipe getRecipeByRecipeSize(String recipeSize) {
-		Recipe recipe = new Recipe();
-		for (Recipe r:getRecipes()) {
-			if(r.getRecipeSize().equals(recipeSize)) {
-				recipe = r;
-			}
-		}return recipe;
+	public List<Drink> getMenu() {
+		return menu;
 	}
-	
 }

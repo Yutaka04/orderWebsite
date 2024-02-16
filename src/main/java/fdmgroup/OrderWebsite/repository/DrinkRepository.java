@@ -11,4 +11,6 @@ import fdmgroup.OrderWebsite.model.store.Recipe;
 @Repository
 public interface DrinkRepository extends JpaRepository<Drink, Integer> {
 	Optional<Drink> findByDrinkName(String drinkName);
+	
+	
 }
