@@ -1,9 +1,10 @@
 package fdmgroup.OrderWebsite.model.customer;
 
-import fdmgroup.OrderWebsite.model.store.Drink;
+import java.time.LocalDateTime;
+
 import fdmgroup.OrderWebsite.model.store.Menu;
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
-import fdmgroup.OrderWebsite.model.store.ToppingList;
+import fdmgroup.OrderWebsite.model.store.Topping;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,41 +14,49 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+/**
+ * Represents an order placed by a customer for a drink from the menu.
+ * Each order contains details such as drink name, cup size, sweetener, toppings, etc.
+ * @author = Danny
+ */
 
 @Entity
+@Table(name = "Order")
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int orderId;
-	@Column(name = "Drink Name")
+	@Column(name = "OrderStatus")
+	private String orderStatus;
+	@Column(name = "OrderTime")
+	private LocalDateTime orderTime;
+	@Column(name = "Drink_Name")
 	private String drinkName;
-	@Column(name = "Cup Size")
+	@Column(name = "Cup_Size")
 	private String cupSize;
-	@Column(name = "Sweetener Name")
+	@Column(name = "Sweetener")
 	private String sweetener;
-	@Column(name = "Sweetener Level")
+	@Column(name = "Sweetener_Level")
 	private String sweetenerLevel;
-	@Column(name = "Sweetener Modifier")
+	@Column(name = "Sweetener_Modifier")
 	private double sweetenerModifier;
-	@Column(name = "Ice Level")
+	@Column(name = "Ice_Level")
 	private String iceLevel;
-	@Column(name = "Ice Level Modifier")
+	@Column(name = "Ice_Level_Modifier")
 	private double iceLevelModifier;
-	@Column(name = "Toppings Present?")
+	@Column(name = "Toppings_Present?")
 	private boolean toppingStatus;
-	@Column(name = "Topping Name")
+	@Column(name = "Topping_Name")
 	private String toppingName;
-	@Column(name = "Less Topping?")
+	@Column(name = "Less_Topping?")
 	private boolean lessTopping;
-	@Column(name = "Topping Modifier")
+	@Column(name = "Topping_Modifier")
 	private double toppingModifier;
-	@Column(name = "Topping Mass")
+	@Column(name = "Topping_Mass")
 	private double toppingMass;
-	@Column(name = "Order_Price")
-	private double orderPrice;
-	private double toppingPrice;
-	private double drinkPrice;
-
+	
 	@ManyToOne
 	@JoinColumn(name= "drink_ID")
 	private Menu menu;
@@ -59,45 +68,19 @@ public class Order {
 	@OneToOne
 	@JoinColumn(name = "FK_ORDERRECIPEID")
 	private OrderRecipe orderRecipe;
+
+	@OneToOne
+	@JoinColumn(name = "FK_TOPPINGID")
+	private Topping topping;
 	
 	private HoneyLevel honeyLevelSelector = new HoneyLevel();
 	private SugarLevel sugarLevelSelector = new SugarLevel();
 	private IceLevel iceLevelSelector = new IceLevel();
-	private ToppingList toppingList = new ToppingList();
-	private ToppingCustomiser toppingCustomiser = new ToppingCustomiser();
-	private CupSize cupSizeSelector = toppingCustomiser.getCupSizeSelector();
 	
 	public Order() {
 		super();
 	}
 	
-	public void createOrder(String drinkName, String cupSize, 
-			String sweetener, String sweetenerLevel, String iceLevel,
-			String toppingName, boolean lessTopping) {
-		this.drinkName = drinkName;
-		this.cupSize = cupSize;
-		this.sweetener = sweetener;
-		this.sweetenerLevel = sweetenerLevel;
-		if (sweetener.equals("Sugar")) {
-			this.sweetenerModifier = sugarLevelSelector.setSugarModifier(sweetenerLevel);
-		}else if(sweetener.equals("Honey")) {
-			this.sweetenerModifier = honeyLevelSelector.setHoneyModifier(sweetenerLevel);
-		}
-		this.iceLevel = iceLevel;
-		this.iceLevelModifier = iceLevelSelector.setIceModifier(iceLevel);
-		setToppingName(toppingName);
-		getToppingCustomiser().setToppingStatus();
-		this.toppingStatus = getToppingCustomiser().getToppingStatus();
-		getToppingCustomiser().setLessTopping();
-		this.lessTopping = getToppingCustomiser().getLessTopping();
-		getToppingCustomiser().setToppingMass();
-		this.toppingMass = getToppingCustomiser().getToppingMass();
-		this.toppingModifier = getToppingCustomiser().getToppingModifier();
-		this.drinkPrice = menu.getPricebyDrinkNameAndCupSize(drinkName, cupSize);
-		this.toppingPrice = toppingList.getPriceByToppingNameAndCupSize(toppingName, cupSize);
-		this.orderPrice = drinkPrice + toppingPrice;
-	}
-
 	public int getOrderId() {
 		return orderId;
 	}
@@ -118,8 +101,16 @@ public class Order {
 		return cupSize;
 	}
 
-	public void setCupSize() {
-		this.cupSize = cupSizeSelector.getCupSize();
+	public void setCupSize(String cupSize) {
+		this.cupSize = cupSize;
+	}
+
+	public String getSweetener() {
+		return sweetener;
+	}
+
+	public void setSweetener(String sweetener) {
+		this.sweetener = sweetener;
 	}
 
 	public String getSweetenerLevel() {
@@ -130,6 +121,24 @@ public class Order {
 		this.sweetenerLevel = sweetenerLevel;
 	}
 
+	public double getSweetenerModifier() {
+		return sweetenerModifier;
+	}
+
+	
+	 /**
+     * Sets the sweetener modifier based on the selected sweetener and its level.
+     * @param sweetener      The type of sweetener (e.g., "Honey", "Sugar").
+     * @param sweetenerLevel The level of sweetener chosen.
+     */
+	public void setSweetenerModifier(String sweetener, String sweetenerLevel) {
+		if(sweetener.equals("Honey")) {
+			this.sweetenerModifier = honeyLevelSelector.setHoneyModifier(sweetenerLevel);
+		}else if(sweetener.equals("Sugar")) {
+			this.sweetenerModifier = sugarLevelSelector.setSugarModifier(sweetenerLevel);
+		}
+	}
+
 	public String getIceLevel() {
 		return iceLevel;
 	}
@@ -138,8 +147,31 @@ public class Order {
 		this.iceLevel = iceLevel;
 	}
 
-	public boolean isToppingPresent() {
+	public double getIceLevelModifier() {
+		return iceLevelModifier;
+	}
+
+	/**
+     * Sets the ice level modifier based on the selected ice level.
+     * @param iceLevel The chosen ice level (e.g., "Regular", "Less Ice").
+     */
+	public void setIceLevelModifier(String iceLevel) {
+		this.iceLevelModifier = iceLevelSelector.setIceModifier(iceLevel);
+	}
+
+	public boolean isToppingStatus() {
 		return toppingStatus;
+	}
+
+	/**
+     * Sets the topping status based on whether a topping is selected.
+     */
+	public void setToppingStatus() {
+		if(!getToppingName().isEmpty()) {
+			this.toppingStatus = false;
+		}else {
+			this.toppingStatus = true;
+		}
 	}
 
 	public String getToppingName() {
@@ -148,7 +180,6 @@ public class Order {
 
 	public void setToppingName(String toppingName) {
 		this.toppingName = toppingName;
-		toppingCustomiser.setToppingName(toppingName);
 	}
 
 	public boolean isLessTopping() {
@@ -159,6 +190,64 @@ public class Order {
 		this.lessTopping = lessTopping;
 	}
 
+	public double getToppingModifier() {
+		return toppingModifier;
+	}
+
+	/**
+     * Sets the topping modifier based on the selected topping and customization.
+     */
+	public void setToppingModifier() {
+		if (isLessTopping() == true && !getToppingName().equals("Grass Jelly")) {
+			this.toppingModifier = 0.1;
+			System.out.println("Less topping portion selected.");
+		}else if(isLessTopping() == true && getToppingName().equals("Grass Jelly")) {
+			this.toppingModifier = 0.0;
+			System.out.println("Grass Jelly Portion cannot be customised.");
+		}else {
+			System.out.println("No topping selected.");
+			this.toppingModifier = 0.0;
+		}
+	}		
+
+	public double getToppingMass() {
+		return toppingMass;
+	}
+
+	/**
+     * Sets the topping mass based on cup size, topping status, and customization.
+     * @param cupSize        The size of the cup (e.g., "M", "L").
+     * @param isToppingStatus The status indicating if a topping is present.
+     * @param lessTopping     The status indicating if less topping is chosen.
+     */
+	public void setToppingMass(String cupSize,boolean isToppingStatus,boolean lessTopping) {
+		if(isToppingStatus() == false) {
+			this.toppingMass = 0;
+		}else {
+			if(isLessTopping() == true) {
+				if(cupSize.equals("M")) {
+					this.toppingMass = 65;
+				}else {
+					this.toppingMass = 100;
+				}
+			}else {
+				if(cupSize.equals("M")) {
+					this.toppingMass = 120;
+				}else {
+					this.toppingMass = 200;
+				}
+			}
+		}
+	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -166,88 +255,30 @@ public class Order {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
 	public OrderRecipe getOrderRecipe() {
 		return orderRecipe;
 	}
-	
+
 	public void setOrderRecipe(OrderRecipe orderRecipe) {
 		this.orderRecipe = orderRecipe;
 	}
-	
-	public double getSweetenerModifier() {
-		return sweetenerModifier;
-	}
-	
-	public double getIceLevelModifier() {
-		return iceLevelModifier;
-	}
-	
-	public double getToppingModifier() {
-		return toppingModifier;
+
+	public String getOrderStatus() {
+		return orderStatus;
 	}
 
-	public double getToppingMass() {
-		return toppingMass;
-	}
-	
-	public CupSize getCupSizeSelector() {
-		return cupSizeSelector;
-	}
-	
-	public HoneyLevel getHoneyLevelSelector() {
-		return honeyLevelSelector;
-	}
-	
-	public SugarLevel getSugarLevelSelector() {
-		return sugarLevelSelector;
-	}
-	
-	public IceLevel getIceLevelSelector() {
-		return iceLevelSelector;
-	}
-	
-	public ToppingCustomiser getToppingCustomiser() {
-		return toppingCustomiser;
-	}
-	
-	public String getSweetener() {
-		return sweetener;
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
-	public void setSweetener(String sweetener) {
-		this.sweetener = sweetener;
+	public LocalDateTime getOrderTime() {
+		return orderTime;
 	}
 
-	public void setHoneyLevelSelector(HoneyLevel honeyLevelSelector) {
-		this.honeyLevelSelector = honeyLevelSelector;
+	public void setOrderTime() {
+		this.orderTime = LocalDateTime.now();
 	}
 	
-	public void setSugarLevelSelector(SugarLevel sugarLevelSelector) {
-		this.sugarLevelSelector = sugarLevelSelector;
-	}
 	
-	public void setIceLevelSelector(IceLevel iceLevelSelector) {
-		this.iceLevelSelector = iceLevelSelector;
-	}
-	
-	public void setToppingCustomiser(ToppingCustomiser toppingCustomiser) {
-		this.toppingCustomiser = toppingCustomiser;
-	}
-
-	public void setCupSizeSelector(CupSize cupSizeSelector) {
-		this.cupSizeSelector = cupSizeSelector;
-	}
-
-	public double getDrinkPrice() {
-		return drinkPrice;
-	}
-	
-	public double getToppingPrice() {
-		return toppingPrice;
-	}
-	
-	public double getOrderPrice() {
-		return orderPrice;
-	}
 }

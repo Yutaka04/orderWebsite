@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.jupiter.api.MethodOrderer.Random;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

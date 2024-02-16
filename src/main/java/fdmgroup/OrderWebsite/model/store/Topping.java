@@ -3,9 +3,7 @@ package fdmgroup.OrderWebsite.model.store;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import fdmgroup.OrderWebsite.model.store.ToppingList;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 
@@ -20,25 +18,26 @@ import jakarta.persistence.Entity;
 public class Topping {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "toppingId")
 	private int toppingNameId;
+	@Column(name = "toppingName")
 	private String toppingName;
-	private String cupSize;
-	private double price;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private ToppingList toppingList;
+	@Column(name = "priceMedium")
+	private double priceMedium;
+	@Column(name = "priceLarge")
+	private double priceLarge;
 
 	/**
      * Constructs a new Topping with the specified details.
      * @param toppingName The name of the topping.
-     * @param cupSize     The cup size compatibility of the topping.
-     * @param price       The price of the topping.
+     * @param priceMedium--> The price of the topping in medium cup.
+     * @param priceLarge --> The price of the topping in large cup.
      */
-	public Topping(String toppingName, String cupSize, double price) {
+	public Topping(String toppingName, double priceMedium, double priceLarge) {
 		super();
 		setToppingName(toppingName);
-		setCupSize(cupSize);
-		setPrice(price);
+		setPriceMedium(priceMedium);
+		setPriceLarge(priceLarge);
 	}
 
 	public int getToppingNameId() {
@@ -53,28 +52,20 @@ public class Topping {
 		this.toppingName = toppingName;
 	}
 
-	public String getCupSize() {
-		return cupSize;
+	public double getPriceMedium() {
+		return priceMedium;
 	}
 
-	public void setCupSize(String cupSize) {
-		this.cupSize = cupSize;
+	public void setPriceMedium(double price) {
+		this.priceMedium = price;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getPriceLarge() {
+		return priceLarge;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPriceLarge(double price) {
+		this.priceLarge = price;
 	}
 
-	public ToppingList getToppingList() {
-		return toppingList;
-	}
-
-	public void setToppingList(ToppingList toppingList) {
-		this.toppingList = toppingList;
-	}
-	
 }

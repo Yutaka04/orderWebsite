@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import fdmgroup.OrderWebsite.model.customer.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Drink")
+@Table(name = "Menu")
 public class Drink {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,20 +38,10 @@ public class Drink {
 	@OneToMany(mappedBy = "drink")
 	private List<Recipe> recipes = new ArrayList<>();
 	
-	@ManyToOne
-	private Menu menu;
+	private List<Drink> menu;
 	
-	/**
-     * Default constructor for JPA compliance.
-     */
 	public Drink() {
 		super();
-	}
-
-	public void createDrink(String drinkName, double priceMedium, double priceLarge) {
-		this.drinkName = drinkName;
-		this.priceMedium = priceMedium;
-		this.priceLarge = priceLarge;
 	}
 	
 	public int getDrinkId() {
@@ -97,21 +88,7 @@ public class Drink {
 		this.recipes = recipes;
 	}
 	
-	public Recipe getRecipeByRecipeSize(String recipeSize) {
-		Recipe recipe = new Recipe();
-		for (Recipe r:getRecipes()) {
-			if(r.getRecipeSize().equals(recipeSize)) {
-				recipe = r;
-			}
-		}return recipe;
+	public List<Drink> getMenu() {
+		return menu;
 	}
-	
-	public double getPriceByCupSize(String cupSize) {
-		if(cupSize.equals("M")) {
-			return getPriceMedium();
-		}else {
-			return getPriceLarge();
-		}
-	}
-	
 }

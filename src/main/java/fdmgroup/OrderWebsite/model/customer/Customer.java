@@ -26,11 +26,6 @@ public class Customer {
 	private String username; 
 	private String password;
 	
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	private CustomerRegistry customerRegistry;
-	
-	
 	/**
      * The list of orders placed by the customer.
      * @OneToMany(mappedBy = "order")
@@ -74,14 +69,6 @@ public class Customer {
 
 	public Integer getCustomerId() {
 		return customerId;
-	}
-
-	public CustomerRegistry getCustomerRegistry() {
-		return customerRegistry;
-	}
-
-	public void setCustomerRegistry(CustomerRegistry customerRegistry) {
-		this.customerRegistry = customerRegistry;
 	}
 
 	public List<Order> getOrders() {
