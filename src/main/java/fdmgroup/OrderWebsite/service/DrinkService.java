@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import fdmgroup.OrderWebsite.model.store.Drink;
 import fdmgroup.OrderWebsite.model.store.Recipe;
 import fdmgroup.OrderWebsite.repository.DrinkRepository;
-import fdmgroup.OrderWebsite.repository.RecipeRepository;
 
 /**
  * Service class for managing operations related to drinks and recipes.

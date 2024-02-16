@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 /**
  * Represents a recipe for creating a drink, specifying details such as
  * ingredients, sizes, and customization options.
- * @Author: Danny
+ * @author= Danny
  */
 
 @Entity
