@@ -8,8 +8,6 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import fdmgroup.SoloProject.store.Recipe;
-
 class StoreRepositoryTest {
 
 	@BeforeAll
@@ -18,7 +16,6 @@ class StoreRepositoryTest {
 
 	@Test
 	void addRecipe_returnsThreeRecipesInMenu() {
-		MenuRepository storeRepo = new MenuRepository();
 		Random random = new Random();
 		String drinkNameTest = random.toString();
 		String teaTest = random.toString();

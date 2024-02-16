@@ -1,12 +1,15 @@
 package fdmgroup.OrderWebsite.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fdmgroup.OrderWebsite.model.customer.Customer;
+import fdmgroup.OrderWebsite.model.customer.Order;
 import fdmgroup.OrderWebsite.repository.CustomerRepository;
+import fdmgroup.OrderWebsite.repository.OrderRepository;
 
 /**
  * The CustomerService class provides business logic for managing customer-related operations.
@@ -17,6 +20,9 @@ import fdmgroup.OrderWebsite.repository.CustomerRepository;
 public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepo;
+	
+	@Autowired
+	private OrderRepository orderRepo;
 	
 	 /**
      * Registers a new customer in the system.
@@ -70,13 +76,29 @@ public class CustomerService {
 	}
 	
 	/**
-     * Retrieves a customer based on the provided username.
+     * Retrieves customer based on the provided username.
      * @param username The username of the customer to be retrieved.
-     * @return The Customer object associated with the given username, or a default customer if not found.
+     * @return The Customer object associated with the given username, or a default if not found.
      */
-	public Customer findCustomerByCustomername(String username) {
+	public Customer findCustomerByUsername(String username) {
 		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
 		Customer customer = customerOptional.orElse(new Customer("defaultName","defaultPassword"));
 		return customer;
+	}
+	
+	/**
+     * Retrieves customer's order based on the provided username.
+     * @param username The username of the customer to be retrieved.
+     * @return The list of order associated with the given username, or an empty list if not found.
+     */
+	public List<Order> getOrderByUsername(String username){
+		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
+		if (customerOptional.isEmpty()) {
+			Customer customer = customerOptional.get();
+			return orderRepo.findAllByCustomer(customer);
+		}else {
+			System.err.println("No Order found");
+			return new ArrayList<Order>();
+		}
 	}
 }

@@ -10,8 +10,6 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 import fdmgroup.OrderWebsite.model.store.Drink;
-import fdmgroup.OrderWebsite.model.store.Menu;
-import fdmgroup.OrderWebsite.model.store.ToppingList;
 
 public class OrderTest {
 	

@@ -2,7 +2,6 @@ package fdmgroup.OrderWebsite.model.customer;
 
 import java.time.LocalDateTime;
 
-import fdmgroup.OrderWebsite.model.store.Menu;
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
 import fdmgroup.OrderWebsite.model.store.Topping;
 import jakarta.persistence.CascadeType;
@@ -56,10 +55,6 @@ public class Order {
 	private double toppingModifier;
 	@Column(name = "Topping_Mass")
 	private double toppingMass;
-	
-	@ManyToOne
-	@JoinColumn(name= "drink_ID")
-	private Menu menu;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_CUSTOMERID")
@@ -240,14 +235,6 @@ public class Order {
 		}
 	}
 
-	public Menu getMenu() {
-		return menu;
-	}
-
-	public void setMenu(Menu menu) {
-		this.menu = menu;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -279,6 +266,5 @@ public class Order {
 	public void setOrderTime() {
 		this.orderTime = LocalDateTime.now();
 	}
-	
 	
 }
