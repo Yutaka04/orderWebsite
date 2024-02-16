@@ -12,6 +12,12 @@ import fdmgroup.OrderWebsite.model.store.Recipe;
 import fdmgroup.OrderWebsite.repository.OrderRecipeRepository;
 import fdmgroup.OrderWebsite.repository.RecipeRepository;
 
+/**
+ * Service class responsible for managing order recipes, including creation and retrieval.
+ * This class interacts with the OrderRecipeRepository and RecipeRepository.
+ * @author = Danny
+ */
+
 @Service
 public class OrderRecipeService {
 	
@@ -21,11 +27,20 @@ public class OrderRecipeService {
 	@Autowired
 	private RecipeRepository recipeRepo;
 	
+	
+	/**
+     * Creates an OrderRecipe based on the provided Order and Drink.
+     * Retrieves the necessary details from the Order and sets them in the OrderRecipe.
+     * If the drink names in the Order and Drink do not match, an error message is printed.
+     * @param order The Order containing customer and drink details.
+     * @param drink The Drink to be associated with the OrderRecipe.
+     */
 	public void createOrderRecipe(Order order, Drink drink) {
 		OrderRecipe orderRecipe = new OrderRecipe();
 		if(order.getDrinkName().equals(drink.getDrinkName())) {
 			orderRecipe.setCustomerId(order.getCustomer().getCustomerId());
 			orderRecipe.setDrinkName(order.getDrinkName());
+			orderRecipe.setOrderId(order.getOrderId());
 			orderRecipe.setCupSize(order.getCupSize());
 			orderRecipe.setToppingName(order.getToppingName());
 			orderRecipe.setToppingStatus(order.isToppingStatus());
@@ -53,6 +68,12 @@ public class OrderRecipeService {
 			}
 		}
 
+	/**
+     * Finds a Recipe based on the given drink name and recipe size.
+     * @param drinkName   The name of the drink.
+     * @param recipeSize  The size of the recipe.
+     * @return            The Recipe matching the criteria, or null if not found.
+     */
 	public Recipe findByDrinkNameAndRecipeSize(String drinkName, String recipeSize) {
 		List<Recipe> recipes = recipeRepo.findbyDrinkName(drinkName);
 		for (Recipe r:recipes) {
@@ -64,6 +85,10 @@ public class OrderRecipeService {
 		return null;
 	}
 	
+	/**
+     * Retrieves a list of all OrderRecipes stored in the repository.
+     * @return A list of OrderRecipes.
+     */
 	public List<OrderRecipe> getAllOrderRecipes(){
 		return orderRecipeRepo.findAll();
 	}

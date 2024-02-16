@@ -19,6 +19,8 @@ public class OrderRecipe {
 	private int orderRecipeId;
 	@Column(name = "Customer_ID")
 	private int customerId;
+	@Column(name = "Order_ID")
+	private int orderId;
 	@Column(name = "OrderStatus")
 	private String orderStatus;
 	@Column(name = "OrderTime")
@@ -286,5 +288,11 @@ public class OrderRecipe {
 		this.orderTime = orderTime;
 	}
 	
+	public int getOrderId() {
+		return orderId;
+	}
 	
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 }
