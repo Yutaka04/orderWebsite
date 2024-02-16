@@ -11,6 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Represents an order recipe associated with a customer's order.
+ * Contains details such as drink components, toppings, and customization.
+ * @author Your Name
+ */
+
 @Entity
 @Table(name = "Order_Recipe")
 public class OrderRecipe {
@@ -214,6 +220,9 @@ public class OrderRecipe {
 		return recipeSize;
 	}
 
+	/**
+     * Sets the recipe size based on the topping status and cup size.
+     */
 	public void setRecipeSize() {
 		if(isToppingStatus() == true && getCupSize().equals("M")) {
 			this.recipeSize = "S";
