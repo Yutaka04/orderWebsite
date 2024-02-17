@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Order_Recipe")
+@Table(name = "OrderRecipe")
 public class OrderRecipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,10 +66,10 @@ public class OrderRecipe {
 	private double toppingModifier;
 	private boolean toppingStatus;	
 	
-	@OneToOne(mappedBy = "drink")
+	@OneToOne(mappedBy = "recipeId")
 	private Drink drink;
 	
-	@OneToOne(mappedBy = "order")
+	@OneToOne(mappedBy = "orderId")
 	private Order order;
 	
 	public OrderRecipe() {

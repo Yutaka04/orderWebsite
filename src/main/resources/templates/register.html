@@ -4,13 +4,17 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<h2>Registration Form</h2>
+	<h1>TeaSis!</h1>
+	<h2>( O w O ) Where's the Tea, Sis? ( O w O )</h2>
+	<h2> </h2>
+	<h2>Join the TeaSisterhood~</h2>
 	
 	<form method="post" action="register" th:object="${user}">
 		<input type="text" th:field="*{username}" placeholder="Username" required>
 		<input type="text" th:field="*{password}" placeholder="Password" required>
 		<input type="submit" value="Register">
 	</form>
-
+	<h3> </h3>
+	<a href="index">Back to Main Page</a>
 </body>
 </html>

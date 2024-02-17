@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 </head>
 <body>
-	<h2>Hello World</h2>
-	<a href="register">Go to Register Page</a>
+	<h1>TeaSis!</h1>
+	<h2>( O w O ) Where's the Tea, Sis? ( O w O )</h2>
+	<h3> Step into TeaSis, the enchanting teashop founded by the charismatic tea-loving twins, Earl and Cham O'Mile. As you cross the threshold, the aromatic symphony of brewing blends envelops you, setting the stage for a delightful experience. The dynamic duo has carefully curated a menu that spills the tea, not just in leaves but in tales of flavor. From chai escapades to green tea galore, TeaSis invites you to sip, savor, and spill the tea – where every cup is a fusion of joy and steeped revelations. Amidst the cozy ambiance, rest assured that there's no tea here that's scalding hot; only perfectly steeped moments waiting to be savored in this haven crafted by the TeaSis family~</h3>
+	<h3> </h3>
+	<h3> </h3>
+	<a href="menu">View Our Menu</a>
+	<h3> </h3>
+	<h3> </h3>
+	<h3> Returning TeaSister? Login here! </h3>
+	<form method="post" action="login">
+		<input type="text" name="username" placeholder="Username">
+		<input type="text" name="password" placeholder="Password">
+		<input type="submit" value="Login">
+	</form>
+	<h4> New to TeaSis? Join the TeaSisterhood <a href="register">here</a> </h4> 
 </body>
 </html>

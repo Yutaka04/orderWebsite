@@ -1,16 +1,11 @@
 package fdmgroup.OrderWebsite.model.store;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import fdmgroup.OrderWebsite.model.customer.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -20,7 +15,7 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Menu")
+@Table(name = "Drink")
 public class Drink {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +31,7 @@ public class Drink {
 	private double priceLarge;
 	
 	@OneToMany(mappedBy = "drink")
-	private List<Recipe> recipes = new ArrayList<>();
+	private List<Recipe> recipes;
 	
 	private List<Drink> menu;
 	

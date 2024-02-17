@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -57,11 +58,11 @@ public class Order {
 	private double toppingMass;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_CUSTOMERID")
+	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
-	@OneToOne
-	@JoinColumn(name = "FK_ORDERRECIPEID")
+	@OneToMany
+	@JoinColumn(name = "order")
 	private OrderRecipe orderRecipe;
 
 	@OneToOne
