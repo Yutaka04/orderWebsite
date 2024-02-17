@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -33,7 +35,9 @@ public class Drink {
 	@OneToMany(mappedBy = "drink")
 	private List<Recipe> recipes;
 	
-	private List<Drink> menu;
+	@ManyToOne
+	@JoinColumn(name = "menuId")
+	private Menu menu;
 	
 	public Drink() {
 		super();
@@ -83,7 +87,7 @@ public class Drink {
 		this.recipes = recipes;
 	}
 	
-	public List<Drink> getMenu() {
+	public Menu getMenu() {
 		return menu;
 	}
 }

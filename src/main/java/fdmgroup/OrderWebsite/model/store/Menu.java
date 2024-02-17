@@ -9,8 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
+/**
+ * The {@code Menu} class represents a menu containing drinks and toppings.
+ * It is used to organize and manage the available items on the menu.
+ * @author = Danny
+ */
 @Entity(name = "Menu")
 public class Menu {
 	@Id
@@ -18,14 +23,20 @@ public class Menu {
 	@Column(name = "menuId")
 	private int menuId;
 	
-	@ManyToMany
+	/**
+     * The list of drinks available in the menu.
+     */
+	@OneToMany
 	@JoinTable(name = "menu_drink", 
 			joinColumns = @JoinColumn(name = "menuId"),
 			inverseJoinColumns = @JoinColumn(name = "drinkId"))
 	private List<Drink> drinks;
 	
-	@ManyToMany
-	@JoinTable(name = "menu_drink", 
+	/**
+     * The list of toppings available in the menu.
+     */
+	@OneToMany
+	@JoinTable(name = "menu_toppings", 
 			joinColumns = @JoinColumn(name = "menuId"),
 			inverseJoinColumns = @JoinColumn(name = "toppingId"))
 	private List<Topping> toppings;

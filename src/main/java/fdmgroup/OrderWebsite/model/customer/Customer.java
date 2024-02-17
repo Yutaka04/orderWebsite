@@ -24,11 +24,7 @@ public class Customer {
 	private String username; 
 	private String password;
 	
-	/**
-     * The list of orders placed by the customer.
-     * @OneToMany(mappedBy = "order")
-     */
-	@OneToMany(mappedBy = "customer" )
+	@OneToMany(mappedBy = "customer")
 	private List<Order> orders;
 	
 	/**

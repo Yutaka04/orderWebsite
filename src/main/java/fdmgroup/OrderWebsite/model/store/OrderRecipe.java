@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -23,9 +24,9 @@ public class OrderRecipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int orderRecipeId;
-	@Column(name = "Customer_ID")
+	@Column(name = "CustomerId")
 	private int customerId;
-	@Column(name = "Order_ID")
+	@Column(name = "OrderId")
 	private int orderId;
 	@Column(name = "OrderStatus")
 	private String orderStatus;
@@ -66,10 +67,12 @@ public class OrderRecipe {
 	private double toppingModifier;
 	private boolean toppingStatus;	
 	
-	@OneToOne(mappedBy = "recipeId")
-	private Drink drink;
+	@OneToOne
+	@JoinColumn(name = "recipeId")
+	private Recipe recipe;
 	
-	@OneToOne(mappedBy = "orderId")
+	@OneToOne
+	@JoinColumn(name = "orderId")
 	private Order order;
 	
 	public OrderRecipe() {
@@ -265,12 +268,12 @@ public class OrderRecipe {
 		this.toppingStatus = toppingStatus;
 	}
 
-	public Drink getDrink() {
-		return drink;
+	public Recipe getRecipe() {
+		return recipe;
 	}
 
-	public void setDrink(Drink drink) {
-		this.drink = drink;
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
 	}
 
 	public Order getOrder() {

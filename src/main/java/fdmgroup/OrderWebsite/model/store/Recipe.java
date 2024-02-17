@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,7 @@ import jakarta.persistence.JoinColumn;
  */
 
 @Entity
-@Table(name = "Drink")
+@Table(name = "Recipe")
 public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,12 +55,11 @@ public class Recipe {
 	private double juiceAmount;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "drink_id")
+	@JoinColumn(name = "drinkId")
 	private Drink drink;
 	
-	@OneToMany(mappedBy = "recipe")
-	private List<OrderRecipe> orderRecipes;
-	
+	@OneToOne(mappedBy = "recipe")
+	private OrderRecipe orderRecipe;
 	
 	/**
      * Default constructor for JPA compliance.

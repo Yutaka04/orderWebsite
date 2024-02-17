@@ -3,6 +3,8 @@ package fdmgroup.OrderWebsite.model.store;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
@@ -14,7 +16,7 @@ import jakarta.persistence.Entity;
 */
 
 @Entity
-@Table(name = "Table")
+@Table(name = "Topping")
 public class Topping {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +29,10 @@ public class Topping {
 	@Column(name = "priceLarge")
 	private double priceLarge;
 
+	@ManyToOne
+	@JoinColumn(name = "menuId")
+	private Menu menu;
+	
 	/**
      * Constructs a new Topping with the specified details.
      * @param toppingName The name of the topping.
