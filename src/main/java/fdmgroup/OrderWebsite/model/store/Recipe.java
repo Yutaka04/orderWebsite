@@ -1,9 +1,12 @@
 package fdmgroup.OrderWebsite.model.store;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,8 +54,12 @@ public class Recipe {
 	private double juiceAmount;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_DRINKID")
+	@JoinColumn(name = "drink_id")
 	private Drink drink;
+	
+	@OneToMany(mappedBy = "recipe")
+	private List<OrderRecipe> orderRecipes;
+	
 	
 	/**
      * Default constructor for JPA compliance.

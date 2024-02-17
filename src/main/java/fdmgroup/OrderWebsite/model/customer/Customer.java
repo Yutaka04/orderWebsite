@@ -28,7 +28,7 @@ public class Customer {
      * The list of orders placed by the customer.
      * @OneToMany(mappedBy = "order")
      */
-	@OneToMany(mappedBy = "order" )
+	@OneToMany(mappedBy = "customer" )
 	private List<Order> orders;
 	
 	/**

@@ -1,13 +1,11 @@
 package fdmgroup.OrderWebsite.model.customer;
 
-import jakarta.persistence.Entity;
-
 /*  
  * This class contains the cup size of the bubble tea. It contains the function to upsize the cup size
  * from M to L.
  * @author: Danny
 */
-@Entity
+
 public class CupSize{
 	private String size;
 	
