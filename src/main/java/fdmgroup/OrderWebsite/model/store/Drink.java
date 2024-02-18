@@ -1,11 +1,15 @@
 package fdmgroup.OrderWebsite.model.store;
 
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -15,28 +19,34 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Drink")
+@Table(name = "`Drink`")
 public class Drink {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "drinkID")
+	@Column(name = "drinkId")
 	private int drinkId;
 	@Column(name = "Drink_Name")
 	private String drinkName;
-	@Column(name = "Cup_Size")
-	private String cupSize;
 	@Column(name = "Medium_Price")
 	private double priceMedium;
 	@Column(name = "Large_Price")
 	private double priceLarge;
 	
-	@OneToMany(mappedBy = "drink")
+	@OneToMany(mappedBy = "drink",cascade = CascadeType.ALL)
 	private List<Recipe> recipes;
 	
-	private List<Drink> menu;
+	@ManyToOne
+	@JoinColumn(name = "menuId")
+	private Menu menu;
 	
 	public Drink() {
 		super();
+	}
+	
+	public Drink(String drinkName, double priceMedium, double priceLarge) {
+		setDrinkName(drinkName);
+		setPriceMedium(priceMedium);
+		setPriceLarge(priceLarge);
 	}
 	
 	public int getDrinkId() {
@@ -51,13 +61,6 @@ public class Drink {
 		this.drinkName = drinkName;
 	}
 
-	public String getCupSize() {
-		return cupSize;
-	}
-
-	public void setCupSize(String cupSize) {
-		this.cupSize = cupSize;
-	}
 
 	public double getPriceMedium() {
 		return priceMedium;
@@ -83,7 +86,7 @@ public class Drink {
 		this.recipes = recipes;
 	}
 	
-	public List<Drink> getMenu() {
+	public Menu getMenu() {
 		return menu;
 	}
 }

@@ -2,12 +2,13 @@ package fdmgroup.OrderWebsite.model.store;
 
 import java.time.LocalDateTime;
 
-import fdmgroup.OrderWebsite.model.customer.Order;
+import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -16,48 +17,47 @@ import jakarta.persistence.Table;
  * Contains details such as drink components, toppings, and customization.
  * @author Your Name
  */
-
+@Deprecated
 @Entity
-@Table(name = "OrderRecipe")
+@Table(name = "`OrderRecipe`")
 public class OrderRecipe {
+	@Column(name = "orderRecipeId")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int orderRecipeId;
-	@Column(name = "Customer_ID")
+	@Column(name = "customerId")
 	private int customerId;
-	@Column(name = "Order_ID")
-	private int orderId;
-	@Column(name = "OrderStatus")
+	@Column(name = "orderStatus")
 	private String orderStatus;
-	@Column(name = "OrderTime")
+	@Column(name = "orderTime")
 	private LocalDateTime orderTime;
-	@Column(name = "Drink_Name")
+	@Column(name = "drinkName")
 	private String drinkName;
-	@Column(name = "Liquid_Type")
+	@Column(name = "liquidType")
 	private String tea;
-	@Column(name = "Volume")
+	@Column(name = "volume")
 	private double teaVolume;
-	@Column(name = "Sweetener")
+	@Column(name = "sweetener")
 	private String sweetener;
-	@Column(name = "Sweetener_Amount")
+	@Column(name = "sweetenerAmount")
 	private double sweetenerAmount;
-	@Column(name = "Condiment")
+	@Column(name = "condiment")
 	private String condiment;
-	@Column(name = "Condiment_Amount")
+	@Column(name = "condimentAmount")
 	private double condimentAmount;
-	@Column(name = "Topping_Name")
+	@Column(name = "toppingName")
 	private String toppingName;
-	@Column(name = "Less_Topping?")
+	@Column(name = "lessTopping?")
 	private boolean lessTopping;
-	@Column(name = "Topping Mass")
+	@Column(name = "toppingMass")
 	private double toppingMass;
-	@Column(name = "Syrup_Name")
+	@Column(name = "syrupName")
 	private String syrup;
-	@Column(name = "Syrup_Amount")
+	@Column(name = "syrupAmount")
 	private double syrupAmount;
-	@Column(name = "Juice_Name")
+	@Column(name = "juiceName")
 	private String juice;
-	@Column(name = "Juice_Amount")
+	@Column(name = "juiceAmount")
 	private double juiceAmount;
 	private String cupSize;
 	private String recipeSize;
@@ -66,14 +66,49 @@ public class OrderRecipe {
 	private double toppingModifier;
 	private boolean toppingStatus;	
 	
-	@OneToOne(mappedBy = "recipeId")
-	private Drink drink;
+	@OneToOne
+	@JoinColumn(name = "recipeId")
+	private Recipe recipe;
 	
-	@OneToOne(mappedBy = "orderId")
-	private Order order;
+	@OneToOne
+	@JoinColumn(name = "orderId")
+	private CustomerOrder order;
 	
 	public OrderRecipe() {
 		super();
+	}
+
+	public OrderRecipe(int customerId, String orderStatus, LocalDateTime orderTime, String drinkName, String tea,
+			double teaVolume, String sweetener, double sweetenerAmount, String condiment, double condimentAmount,
+			String toppingName, boolean lessTopping, double toppingMass, String syrup, double syrupAmount, String juice,
+			double juiceAmount, String cupSize, String recipeSize, double sweetenerModifier, double iceLevelModifier,
+			double toppingModifier, boolean toppingStatus, Recipe recipe, CustomerOrder order) {
+		super();
+		this.customerId = customerId;
+		this.orderStatus = orderStatus;
+		this.orderTime = orderTime;
+		this.drinkName = drinkName;
+		this.tea = tea;
+		this.teaVolume = teaVolume;
+		this.sweetener = sweetener;
+		this.sweetenerAmount = sweetenerAmount;
+		this.condiment = condiment;
+		this.condimentAmount = condimentAmount;
+		this.toppingName = toppingName;
+		this.lessTopping = lessTopping;
+		this.toppingMass = toppingMass;
+		this.syrup = syrup;
+		this.syrupAmount = syrupAmount;
+		this.juice = juice;
+		this.juiceAmount = juiceAmount;
+		this.cupSize = cupSize;
+		this.recipeSize = recipeSize;
+		this.sweetenerModifier = sweetenerModifier;
+		this.iceLevelModifier = iceLevelModifier;
+		this.toppingModifier = toppingModifier;
+		this.toppingStatus = toppingStatus;
+		this.recipe = recipe;
+		this.order = order;
 	}
 
 	public int getOrderRecipeId() {
@@ -265,19 +300,19 @@ public class OrderRecipe {
 		this.toppingStatus = toppingStatus;
 	}
 
-	public Drink getDrink() {
-		return drink;
+	public Recipe getRecipe() {
+		return recipe;
 	}
 
-	public void setDrink(Drink drink) {
-		this.drink = drink;
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
 	}
 
-	public Order getOrder() {
+	public CustomerOrder getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(CustomerOrder order) {
 		this.order = order;
 	}
 
@@ -296,12 +331,5 @@ public class OrderRecipe {
 	public void setOrderTime(LocalDateTime orderTime) {
 		this.orderTime = orderTime;
 	}
-	
-	public int getOrderId() {
-		return orderId;
-	}
-	
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
+
 }

@@ -1,11 +1,10 @@
 package fdmgroup.OrderWebsite.service;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import fdmgroup.OrderWebsite.model.store.Drink;
 import fdmgroup.OrderWebsite.model.store.Recipe;
 import fdmgroup.OrderWebsite.repository.DrinkRepository;
@@ -16,13 +15,18 @@ import fdmgroup.OrderWebsite.repository.RecipeRepository;
  * @author =  Danny
  */
 
-@Service
+@Deprecated
+@Service("recipeService")
 public class RecipeService {
 	@Autowired
 	private DrinkRepository drinkRepo;
 	
 	@Autowired
 	private RecipeRepository recipeRepo;
+	
+	@Autowired
+	private SessionFactory session;
+	
 	
 	/**
      * Creates a new recipe with the specified details.
@@ -73,18 +77,20 @@ public class RecipeService {
      * @param juiceAmt3   The amount of juice used for recipe size L.
      * @throws IllegalArgumentException if the specified drink is not found.
      */
-	public void addRecipesToDrink(Drink drink, String tea, String sweetener, 
+	public void addRecipesToDrink(String drinkName, String tea, String sweetener, 
 			double sweetenerAmt1, double sweetenerAmt2, double sweetenerAmt3,
 			String condiment, String syrup, double syrupAmt1, double syrupAmt2, double syrupAmt3,
 			String juice,  double juiceAmt1, double juiceAmt2, double juiceAmt3) {
-		Optional<Drink> optionalDrink = drinkRepo.findByDrinkName(drink.getDrinkName());
+		Optional<Drink> optionalDrink = drinkRepo.findByDrinkName(drinkName);
 		if(optionalDrink.isPresent()) {
+			Drink drink = optionalDrink.get();
+			drink = session.getCurrentSession().merge(drink);
 			createRecipe(drink,"S",tea,sweetener,sweetenerAmt1,condiment,syrup,syrupAmt1,juice,juiceAmt1);
 			createRecipe(drink,"M",tea,sweetener,sweetenerAmt2,condiment,syrup,syrupAmt2,juice,juiceAmt2);
 			createRecipe(drink,"L",tea,sweetener,sweetenerAmt3,condiment,syrup,syrupAmt3,juice,juiceAmt3);
 		}else {
-			System.err.println(drink.getDrinkName() + " not found");
-			throw new IllegalArgumentException(drink.getDrinkName() + " not found");
+			System.err.println(drinkName + " not found");
+			throw new IllegalArgumentException(drinkName + " not found");
 		}
 	}
 	
@@ -93,8 +99,6 @@ public class RecipeService {
      * @param drinkName The name of the drink for which recipes should be deleted.
      */
 	public void deleteRecipeByDrinkName(String drinkName) {
-		List<Recipe> recipes;
-		recipes = recipeRepo.findbyDrinkName(drinkName);
-		recipeRepo.deleteAll(recipes);
+		recipeRepo.deleteRecipesByDrinkName(drinkName);
 	}
 }

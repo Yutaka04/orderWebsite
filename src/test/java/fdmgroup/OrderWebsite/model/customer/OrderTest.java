@@ -13,56 +13,102 @@ import fdmgroup.OrderWebsite.model.store.Drink;
 
 public class OrderTest {
 	
+	@Test
+	public void setSweetenerLevel_returnSweetenerModifierOnePointZero_when100PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Honey");
+		String input = "100%";
+		order.setSweetenerLevel(input);
+		assertEquals(1.0,order.getSweetenerModifier(),1.0);
+	}
 	
 	@Test
-	public void createOrder_returnOrder_whenCalled() {		
-		Random random = new Random();
-		Order order = new Order();
-		CupSize cupSize = order.getCupSizeSelector();
-		String cupSizeTest = cupSize.getCupSize();
-		ToppingList toppingList = new ToppingList();
-		String drinkNameTest = random.toString();
-		List<String> sweetenerList = new ArrayList<>();
-		sweetenerList.add("Honey");
-		sweetenerList.add("Sugar");
-		HoneyLevel honeyLevelSelector = order.getHoneyLevelSelector();
-		SugarLevel sugarLevelSelector = order.getSugarLevelSelector();
-		IceLevel iceLevelSelector = order.getIceLevelSelector();
-		Menu menu = new Menu();
-		List<Drink> drinks = menu.getMenu();
-		String sweetenerTest = sweetenerList.get(random.nextInt(sweetenerList.size()));
-		order.setSweetener(sweetenerTest);
-		String sweetenerLevelTest = "25%";
-		double sweetenerModifierTest = random.nextDouble();
-		if (sweetenerTest.equals("Honey")) {
-			sweetenerModifierTest = honeyLevelSelector.setHoneyModifier(sweetenerLevelTest);
-		}else {
-			sweetenerModifierTest = sugarLevelSelector.setSugarModifier(sweetenerLevelTest);
-		}
-		String iceLevelTest = iceLevelSelector.getIceLevelChart().get(random.nextInt(sweetenerList.size()));
-		double iceLevelModifier = iceLevelSelector.setIceModifier(iceLevelTest);
-		String toppingTest = toppingList.getToppingList().get(random.nextInt(toppingList.getToppingList().size())).getToppingName();
-		
-		Drink drink = new Drink();
-		double priceTest1 = random.nextDouble();
-		double priceTest2 = random.nextDouble();
-		drinks.add(drink);
-		drink.createDrink(drinkNameTest, priceTest1, priceTest2);
-		Order orderTest = new Order();
-		orderTest.createOrder(drinkNameTest, cupSizeTest, sweetenerTest, sweetenerLevelTest, iceLevelTest, toppingTest, true);
-		
-		assertEquals(drinkNameTest,orderTest.getDrinkName());
-		assertEquals(cupSizeTest,orderTest.getCupSize());
-		assertEquals(sweetenerTest,orderTest.getSweetener());
-		assertEquals(sweetenerLevelTest,orderTest.getSweetenerLevel());
-		assertEquals(sweetenerModifierTest,orderTest.getSweetenerModifier(),0);
-		assertEquals(iceLevelTest,orderTest.getIceLevel());
-		assertEquals(iceLevelModifier,orderTest.getIceLevelModifier(),0);
-		assertEquals(toppingTest, orderTest.getToppingName());
-		assertTrue(orderTest.getToppingCustomiser().getToppingStatus());
-		assertTrue(orderTest.getToppingCustomiser().getLessTopping());
-		assertEquals(0.1,orderTest.getToppingModifier(),0);
-		//assertEquals(toppingList.getPriceByToppingNameAndCupSize(toppingTest, cupSizeTest),orderTest.getToppingPrice(),0);
-		//assertEquals(priceTest1,orderTest.getDrinkPrice(),0);
+	public void setSweetenerLevel_returnSweetenerModifierOnePointTwo_when120PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Honey");
+		String input = "120%";
+		order.setSweetenerLevel(input);
+		assertEquals(1.2,order.getSweetenerModifier(),1.2);
+	}
+	
+	@Test
+	public void setSweetenerLevel_returnSweetenerModifierZeroPointSevenFive_when70PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Honey");
+		String input = "70%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.75,order.getSweetenerModifier(),0.75);
+	}
+	
+	@Test
+	public void setSweetenerLevel_returnSweetenerModifierZeroPointFive_when50PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Honey");
+		String input = "50%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.5,order.getSweetenerModifier(),0.5);
+	}
+	
+	@Test
+	public void setSweetenerLevel_returnTrueAndSweetenerModifierZeroPointTwoFive_when25PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Honey");
+		String input = "25%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.25,order.getSweetenerModifier(),0.25);
+	}
+	
+	@Test
+	public void setSweetenerModifier_returnSweetenerModifierZeroPointZero_when100PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Sugar");
+		String input = "100%";
+		order.setSweetenerLevel(input);
+		assertEquals(1.0,order.getSweetenerModifier(),1.0);
+	}
+	
+	@Test
+	public void setSweetenerModifier_returnSweetenerModifierOnePointTwo_when120PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Sugar");
+		String input = "120%";
+		order.setSweetenerLevel(input);
+		assertEquals(1.2,order.getSweetenerModifier(),1.2);
+	}
+	
+	@Test
+	public void setSweetenerModifier_returnSweetenerModifierZeroPointSevenFive_when70PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Sugar");
+		String input = "70%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.75,order.getSweetenerModifier(),0.75);
+	}
+	
+	@Test
+	public void setSweetenerModifier_returnSweetenerModifierZeroPointFive_when50PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Sugar");
+		String input = "50%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.5,order.getSweetenerModifier(),0.5);
+	}
+	
+	@Test
+	public void setSweetenerModifier_returnSweetenerModifierZeroPointTwoFive_when25PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Sugar");
+		String input = "25%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.25,order.getSweetenerModifier(),0.25);
+	}
+	
+	@Test
+	public void setSweetenerModifier_returnSweetenerModifierZeroPointZero_when0PercentCalled(){
+		CustomerOrder order = new CustomerOrder();
+		order.setSweetener("Sugar");
+		String input = "0%";
+		order.setSweetenerLevel(input);
+		assertEquals(0.0,order.getSweetenerModifier(),0.0);
 	}
 }

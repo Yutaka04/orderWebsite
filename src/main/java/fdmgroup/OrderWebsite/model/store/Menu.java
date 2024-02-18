@@ -2,6 +2,7 @@ package fdmgroup.OrderWebsite.model.store;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,27 +10,42 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
-@Entity(name = "Menu")
+/**
+ * The {@code Menu} class represents a menu containing drinks and toppings.
+ * It is used to organize and manage the available items on the menu.
+ * @author = Danny
+ */
+@Entity(name = "`Menu`")
 public class Menu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "menuId")
 	private int menuId;
 	
-	@ManyToMany
-	@JoinTable(name = "menu_drink", 
+	/**
+     * The list of drinks available in the menu.
+     */
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "menu_drinks", 
 			joinColumns = @JoinColumn(name = "menuId"),
 			inverseJoinColumns = @JoinColumn(name = "drinkId"))
 	private List<Drink> drinks;
 	
-	@ManyToMany
-	@JoinTable(name = "menu_drink", 
+	/**
+     * The list of toppings available in the menu.
+     */
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "menu_toppings", 
 			joinColumns = @JoinColumn(name = "menuId"),
 			inverseJoinColumns = @JoinColumn(name = "toppingId"))
 	private List<Topping> toppings;
-
+	
+	public Menu() {
+		super();
+	}
+	
 	public int getMenuId() {
 		return menuId;
 	}

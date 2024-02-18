@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fdmgroup.OrderWebsite.model.customer.Customer;
-import fdmgroup.OrderWebsite.model.customer.Order;
+import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
 import fdmgroup.OrderWebsite.repository.CustomerRepository;
 import fdmgroup.OrderWebsite.repository.OrderRecipeRepository;
 import fdmgroup.OrderWebsite.repository.OrderRepository;
+import fdmgroup.OrderWebsite.repository.RecipeRepository;
 
 /**
  * Service class responsible for managing order recipes, including creation and retrieval.
@@ -18,7 +19,7 @@ import fdmgroup.OrderWebsite.repository.OrderRepository;
  * @author Your Name
  */
 
-@Service
+@Service("orderService")
 public class OrderService {
 	@Autowired
 	private OrderRepository orderRepo;
@@ -29,21 +30,24 @@ public class OrderService {
 	@Autowired
 	private OrderRecipeRepository orderRecipeRepo;
 	
+	@Autowired
+	private RecipeRepository recipeRepo;
 	
 	/**
-     * Creates an OrderRecipe based on the provided Order and Drink.
-     * Retrieves the necessary details from the Order and sets them in the OrderRecipe.
-     * If the drink names in the Order and Drink do not match, an error message is printed.
-     * @param order The Order containing customer and drink details.
+     * Creates an OrderRecipe based on the provided CustomerOrder and Drink.
+     * Retrieves the necessary details from the CustomerOrder and sets them in the OrderRecipe.
+     * If the drink names in the CustomerOrder and Drink do not match, an error message is printed.
+     * @param order The CustomerOrder containing customer and drink details.
      * @param drink The Drink to be associated with the OrderRecipe.
      */
-	public void createOrder(String drinkName, String cupSize,String sweetener, String sweetenerLevel, 
+	public void createOrder(String drinkName, String cupSize, String sweetenerLevel, 
 			String iceLevel, String toppingName, boolean lessTopping) {
-		Order order = new Order();
+		CustomerOrder order = new CustomerOrder();
 		order.setDrinkName(drinkName);
 		order.setOrderTime();
 		order.setOrderStatus("Incomplete");
 		order.setCupSize(cupSize);
+		String sweetener = recipeRepo.findAllByDrinkName(drinkName).get(0).getSweetener();
 		order.setSweetener(sweetener);
 		order.setSweetenerLevel(sweetenerLevel);
 		order.setSweetenerModifier(sweetener, sweetenerLevel);
@@ -63,14 +67,16 @@ public class OrderService {
      * @param recipeSize  The size of the recipe.
      * @return            The Recipe matching the criteria, or null if not found.
      */
-	public void addOrderToCustomer(String username, Order order) {
+	public boolean addOrderToCustomer(String username, CustomerOrder order) {
 		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
 		if(customerOptional.isPresent()) {
 			Customer customer = customerOptional.get();
 			order.setCustomer(customer);
 			orderRepo.save(order);
+			return true;
 		}else {
 			System.err.println(username + " does not exist");
+			return false;
 		}
 	}
 	
@@ -79,27 +85,28 @@ public class OrderService {
      * Retrieves a list of all OrderRecipes stored in the repository.
      * @return A list of OrderRecipes.
      */
-	public void updateOrderStatus(Order orderToFind, String status) {
-		Optional<Order> orderOptional = orderRepo.findById(orderToFind.getOrderId());
+	public void updateOrderStatus(CustomerOrder orderToFind, String status) {
+		Optional<CustomerOrder> orderOptional = orderRepo.findById(orderToFind.getOrderId());
 		if(orderOptional.isPresent()) {
-			Order order = orderOptional.get();
+			CustomerOrder order = orderOptional.get();
 			order.setOrderStatus(status);
 			orderRepo.save(order);
 			
-			System.out.println("Order Status updated!");
+			System.out.println("CustomerOrder Status updated!");
 			
-			Optional<OrderRecipe> orderRecipeOptional = orderRecipeRepo.findByOrderId(order.getOrderId());
+			Optional<OrderRecipe> orderRecipeOptional = orderRecipeRepo.findByOrder_OrderId(order.getOrderId());
 			if(orderRecipeOptional.isPresent()) {
 				OrderRecipe orderRecipe = orderRecipeOptional.get();
 				orderRecipe.setOrderStatus(status);
 				orderRecipeRepo.save(orderRecipe);
 				
-				System.out.println("Order Status updated!");
+				System.out.println("CustomerOrder Status updated!");
 			}else {
-				System.err.println("Order Recipe for "+ orderToFind.getOrderId() + " does not exist");
+				System.err.println("CustomerOrder Recipe for "+ orderToFind.getOrderId() + " does not exist");
 			}
 		}else {
-			System.err.println("Order for "+ orderToFind.getOrderId() + " does not exist");
+			System.err.println("CustomerOrder for "+ orderToFind.getOrderId() + " does not exist");
 		}
 	}
+	
 }

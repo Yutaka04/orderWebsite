@@ -1,5 +1,7 @@
 package fdmgroup.OrderWebsite.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import fdmgroup.OrderWebsite.repository.ToppingRepository;
  * @author = Danny
  */
 
-@Service
+@Service("toppingService")
 public class ToppingService {
 	
 	@Autowired
@@ -21,6 +23,7 @@ public class ToppingService {
      * Initialise the topping list if it has not happened.
      */
 	public void initialiseToppingList() {
+		addTopping("N.A.",0,0);
 		addTopping("Jumbo Pearl",1,1);
 		addTopping("Aloe Vera",1.2,1.6);
 		addTopping("Aiyu",1.2,1.6);
@@ -36,7 +39,7 @@ public class ToppingService {
      * @param priceLarge --> The price of the topping in large cup.
      */
 	public void addTopping(String toppingName, double priceMedium, double priceLarge) {
-		Topping topping = new Topping(toppingName,priceMedium,priceLarge);
+		Topping topping = new Topping(toppingName, priceMedium, priceLarge);
 		if (toppingRepo.findByToppingName(toppingName).isEmpty()) {
 			toppingRepo.save(topping);
 		}else {
@@ -64,4 +67,8 @@ public class ToppingService {
 		
 	}
 	
+	
+	public List<Topping> getAllToppings(){
+		return toppingRepo.findAll();
+	}
 }

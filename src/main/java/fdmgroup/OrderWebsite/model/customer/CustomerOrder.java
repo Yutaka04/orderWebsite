@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -23,10 +22,11 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Order")
-public class Order {
+@Table(name = "`CustomerOrder`")
+public class CustomerOrder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "orderId")
 	private int orderId;
 	@Column(name = "OrderStatus")
 	private String orderStatus;
@@ -57,23 +57,19 @@ public class Order {
 	@Column(name = "Topping_Mass")
 	private double toppingMass;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id")
+	@ManyToOne
+	@JoinColumn(name = "customerId")
 	private Customer customer;
 	
-	@OneToMany
-	@JoinColumn(name = "order")
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	@JoinColumn(name = "orderRecipeId")
 	private OrderRecipe orderRecipe;
 
 	@OneToOne
-	@JoinColumn(name = "FK_TOPPINGID")
+	@JoinColumn(name = "toppingId")
 	private Topping topping;
 	
-	private HoneyLevel honeyLevelSelector = new HoneyLevel();
-	private SugarLevel sugarLevelSelector = new SugarLevel();
-	private IceLevel iceLevelSelector = new IceLevel();
-	
-	public Order() {
+	public CustomerOrder() {
 		super();
 	}
 	
@@ -129,9 +125,44 @@ public class Order {
      */
 	public void setSweetenerModifier(String sweetener, String sweetenerLevel) {
 		if(sweetener.equals("Honey")) {
-			this.sweetenerModifier = honeyLevelSelector.setHoneyModifier(sweetenerLevel);
+			switch (sweetenerLevel) {
+			case "100%":
+				this.sweetenerModifier = 1.0;
+				break;
+			case "70%":
+				this.sweetenerModifier = 0.75;
+				break;
+			case "50%":
+				this.sweetenerModifier = 0.5;
+				break;
+			case "120%":
+				this.sweetenerModifier = 1.25;
+				break;
+			default:
+				this.sweetenerModifier =0.25;
+				break;
+			}
 		}else if(sweetener.equals("Sugar")) {
-			this.sweetenerModifier = sugarLevelSelector.setSugarModifier(sweetenerLevel);
+			switch (sweetenerLevel) {
+			case "100%":
+				this.sweetenerModifier = 1.0;
+				break;
+			case "70%":
+				this.sweetenerModifier = 0.75;
+				break;
+			case "50%":
+				this.sweetenerModifier = 0.5;
+				break;
+			case "25%":
+				this.sweetenerModifier = 0.25;
+				break;
+			case "120%":
+				this.sweetenerModifier = 1.25;
+				break;
+			default:
+				this.sweetenerModifier =0.0;
+				break;
+			}
 		}
 	}
 
@@ -152,7 +183,20 @@ public class Order {
      * @param iceLevel The chosen ice level (e.g., "Regular", "Less Ice").
      */
 	public void setIceLevelModifier(String iceLevel) {
-		this.iceLevelModifier = iceLevelSelector.setIceModifier(iceLevel);
+		switch (iceLevel) {
+		case "Normal Ice":
+			this.iceLevelModifier = 0.0;
+			break;
+		case "More Ice":
+			this.iceLevelModifier = -0.1;
+			break;
+		case "Less Ice":
+			this.iceLevelModifier = 0.1;
+			break;
+		default:
+			this.iceLevelModifier =0.2;
+			break;
+		}
 	}
 
 	public boolean isToppingStatus() {
@@ -163,7 +207,7 @@ public class Order {
      * Sets the topping status based on whether a topping is selected.
      */
 	public void setToppingStatus() {
-		if(!getToppingName().isEmpty()) {
+		if(getToppingName().equals("N.A.")) {
 			this.toppingStatus = false;
 		}else {
 			this.toppingStatus = true;

@@ -1,5 +1,6 @@
 package fdmgroup.OrderWebsite.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,72 @@ import fdmgroup.OrderWebsite.repository.DrinkRepository;
  * @author = Danny
  */
 
-@Service
+@Service("drinkService")
 public class DrinkService {
 	@Autowired
 	private DrinkRepository drinkRepo;
+	
+	@Autowired
+	private RecipeService recipeService;
+	
+	/**
+     * Initialise the drinks list if it has not happened.
+     */
+	public void initialiseDrink() {
+		createDrink("Assam Black Tea", 2.8,3.5);
+		createDrink("Jasmine Tea",2.8,3.5);
+		createDrink("Four Season Tea",2.8,3.5);
+		createDrink("Milk Tea", 3.6,4.6);
+		createDrink("Green Milk Tea",3.6,4.6);
+		createDrink("Seasons Milk Tea",3.6,4.6);
+		createDrink("Hazelnut Milk Tea",4.3,5.5);
+		createDrink("Hazelnut Green Milk Tea",4.3,5.5);
+		createDrink("Hazelnut Seasons Milk Tea",4.3,5.5);
+		createDrink("Toffee Milk Tea",4.3,5.5);
+		createDrink("Toffee Green Milk Tea",4.3,5.5);
+		createDrink("Toffee Seasons Milk Tea", 4.3,5.5);
+		createDrink("Vanilla Milk Tea", 4.3,5.5);
+		createDrink("Vanilla Green Milk Tea",4.3,5.5);
+		createDrink("Vanilla Seasons Milk Tea",4.3,5.5);
+		createDrink("Lychee Milk Tea", 4.3,5.5);
+		createDrink("Lychee Green Milk Tea",4.3,5.5);
+		createDrink("Lychee Seasons Milk Tea", 4.3,5.5);
+		createDrink("Lychee Black Tea",3.8,4.9);
+		createDrink("Lychee Green Tea",3.8,4.9);
+		createDrink("Lychee Seasons Tea",3.8,4.9);
+		createDrink("Mango Milk Tea",4.3,5.5);
+		createDrink("Mango Green Milk Tea", 4.3,5.5);
+		createDrink("Mango Seasons Milk Tea",4.3,5.5);
+		createDrink("Mango Black Tea", 3.8,4.9);
+		createDrink("Mango Green Tea", 3.8,4.9);
+		createDrink("Mango Seasons Tea", 3.8,4.9);
+		createDrink("Peach Milk Tea", 4.3,5.5);
+		createDrink("Peach Green Milk Tea", 4.3,5.5);
+		createDrink("Peach Seasons Milk Tea",4.3,5.5);
+		createDrink("Peach Black Tea",3.8,4.9);
+		createDrink("Peach Green Tea", 3.8,4.9);
+		createDrink("Peach Seasons Tea", 3.8,4.9);
+		createDrink("Honey Milk Tea", 4.3,5.5);
+		createDrink("Honey Green Milk Tea", 4.3,5.5);
+		createDrink("Honey Seasons Milk Tea", 4.3,5.5);
+		createDrink("Honey Black Tea", 3.8,4.9);
+		createDrink("Honey Green Tea", 3.8,4.9);
+		createDrink("Honey Seasons Tea", 3.8,4.9);
+		createDrink("Honey Lemon Seasons Milk Tea", 3.8,4.9);
+		createDrink("Honey Lemon Black Tea",3.8,4.9);
+		createDrink("Honey Lemon Green Tea",3.8,4.9);
+		createDrink("Honey Lime Seasons Tea",3.8,4.9);
+		createDrink("Honey Lime Black Tea", 3.8,4.9);
+		createDrink("Honey Lime Green Tea", 3.8,4.9);
+		createDrink("Honey Lime Seasons Tea", 3.8,4.9);
+		createDrink("Honey Lemon & Lime Black Tea",3.8,4.9);
+		createDrink("Honey Lemon & Lime Green Tea", 3.8,4.9);
+		createDrink("Yakult Green Tea", 4.9,6.5);
+		createDrink("Yakult Red Tea", 4.9,6.5);
+		createDrink("Ribena Yakult Green Tea",4.9,6.5);
+	}
+	
+	
 	
 	/**
 	 * Creates a new drink with the specified drink name, medium price, and large price.
@@ -90,5 +153,9 @@ public class DrinkService {
 		}
 	}
 	
+	
+	public List<Drink> getAllDrinks(){
+		return drinkRepo.findAll();
+	}
 	
 }

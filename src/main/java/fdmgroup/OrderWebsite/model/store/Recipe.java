@@ -1,12 +1,10 @@
 package fdmgroup.OrderWebsite.model.store;
 
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,61 +16,77 @@ import jakarta.persistence.JoinColumn;
  * ingredients, sizes, and customization options.
  * @author= Danny
  */
-
+@Deprecated
 @Entity
-@Table(name = "Drink")
+@Table(name = "`Recipe`")
 public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "recipeID")
+	@Column(name = "recipeId")
 	private int recipeId;
-	@Column(name = "Drink_Name")
+	@Column(name = "drinkName")
 	private String drinkName;
-	@Column(name = "Recipe_Size")
+	@Column(name = "recipeSize")
 	private String recipeSize;
-	@Column(name = "Liquid_Type")
+	@Column(name = "liquidType")
 	private String tea;
-	@Column(name = "Volume")
+	@Column(name = "volume")
 	private double teaVolume;
-	@Column(name = "Sweetener")
+	@Column(name = "sweetener")
 	private String sweetener;
-	@Column(name = "Sweetener_Amount")
+	@Column(name = "sweetenerAmount")
 	private double sweetenerAmount;
-	@Column(name = "Condiment")
+	@Column(name = "condiment")
 	private String condiment;
-	@Column(name = "Condiment_Amount")
+	@Column(name = "condimentAmount")
 	private double condimentAmount;
-	@Column(name = "Topping_Mass")
+	@Column(name = "toppingMass")
 	private double toppingMass;
-	@Column(name = "Syrup_Name")
+	@Column(name = "syrupName")
 	private String syrup;
-	@Column(name = "Syrup_Amount")
+	@Column(name = "syrupAmount")
 	private double syrupAmount;
-	@Column(name = "Juice_Name")
+	@Column(name = "juiceName")
 	private String juice;
-	@Column(name = "Juice_Amount")
+	@Column(name = "juiceAmount")
 	private double juiceAmount;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "drink_id")
+	@JoinColumn(name = "drinkId")
 	private Drink drink;
 	
-	@OneToMany(mappedBy = "recipe")
-	private List<OrderRecipe> orderRecipes;
+	@OneToOne(mappedBy = "recipe",cascade = CascadeType.ALL)
+	private OrderRecipe orderRecipe;
 	
-	
-	/**
-     * Default constructor for JPA compliance.
-     */
 	public Recipe() {
 		super();
 	}
-	
+
+	public Recipe(String drinkName, String recipeSize, String tea, double teaVolume, String sweetener,
+			double sweetenerAmount, String condiment, double condimentAmount, double toppingMass, String syrup,
+			double syrupAmount, String juice, double juiceAmount, Drink drink, OrderRecipe orderRecipe) {
+		super();
+		this.drinkName = drinkName;
+		this.recipeSize = recipeSize;
+		this.tea = tea;
+		this.teaVolume = teaVolume;
+		this.sweetener = sweetener;
+		this.sweetenerAmount = sweetenerAmount;
+		this.condiment = condiment;
+		this.condimentAmount = condimentAmount;
+		this.toppingMass = toppingMass;
+		this.syrup = syrup;
+		this.syrupAmount = syrupAmount;
+		this.juice = juice;
+		this.juiceAmount = juiceAmount;
+		this.drink = drink;
+		this.orderRecipe = orderRecipe;
+	}
 
 	public String getDrinkName() {
 		return drinkName;
 	}
-
+	
 	public void setDrinkName(String drinkName) {
 		this.drinkName = drinkName;
 	}
@@ -223,13 +237,4 @@ public class Recipe {
 	public void setDrink(Drink drink) {
 		this.drink = drink;
 	}
-	
-//	public Optional<Recipe> findRecipeByDrinkName(String drinkName){
-//		Optional<Recipe> recipe = null;
-//		for (Recipe r:drink.getRecipes()) {
-//			if (r.getDrinkName().equals(drinkName)) {
-//				recipe =  Optional.of(r);
-//			}
-//		}return recipe;
-//	}
 }
