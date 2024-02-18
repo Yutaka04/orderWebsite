@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import fdmgroup.OrderWebsite.model.customer.Customer;
-import fdmgroup.OrderWebsite.model.customer.Order;
+import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
 import fdmgroup.OrderWebsite.repository.CustomerRepository;
 import fdmgroup.OrderWebsite.repository.OrderRepository;
 
@@ -17,6 +18,7 @@ import fdmgroup.OrderWebsite.repository.OrderRepository;
  * @author = Danny
  */
 
+@Service("customerService")
 public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepo;
@@ -30,12 +32,13 @@ public class CustomerService {
      * @return true if the registration is successful, false if a customer with the same ID already exists.
      */
 	public boolean registerNewCustomer(Customer customer) {
-		Optional<Customer> customerOptional = customerRepo.findById(customer.getCustomerId());
+		Optional<Customer> customerOptional = customerRepo.findByUsername(customer.getUsername());
 		
 		if (customerOptional.isEmpty()) {
 			customerRepo.save(customer);
 			return true;
 		} else {
+			System.err.println(customer.getUsername() + "already exists");
 			return false;
 		}
 	}
@@ -69,6 +72,7 @@ public class CustomerService {
 	public boolean verifyCustomerCredientials(String username, String password) {
 		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
 		if (customerOptional.isEmpty()) {
+			System.err.println("Username or password incorrect");
 			return false;
 		}else {
 			return customerOptional.get().getPassword().equals(password);
@@ -91,14 +95,14 @@ public class CustomerService {
      * @param username The username of the customer to be retrieved.
      * @return The list of order associated with the given username, or an empty list if not found.
      */
-	public List<Order> getOrderByUsername(String username){
+	public List<CustomerOrder> getOrderByUsername(String username){
 		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
-		if (customerOptional.isEmpty()) {
+		if (!customerOptional.isEmpty()) {
 			Customer customer = customerOptional.get();
 			return orderRepo.findAllByCustomer(customer);
 		}else {
-			System.err.println("No Order found");
-			return new ArrayList<Order>();
+			System.err.println("No CustomerOrder found");
+			return new ArrayList<CustomerOrder>();
 		}
 	}
 }

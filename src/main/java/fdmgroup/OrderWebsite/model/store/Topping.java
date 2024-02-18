@@ -16,7 +16,7 @@ import jakarta.persistence.Entity;
 */
 
 @Entity
-@Table(name = "Topping")
+@Table(name = "`Topping`")
 public class Topping {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +32,10 @@ public class Topping {
 	@ManyToOne
 	@JoinColumn(name = "menuId")
 	private Menu menu;
+
+	public Topping() {
+		super();
+	}
 	
 	/**
      * Constructs a new Topping with the specified details.

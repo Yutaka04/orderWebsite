@@ -1,9 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th= "http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<title> TeaSis - Home </title>
 </head>
 <body>
-	<h2>Welcome Back, <span th:text= "${user.username}"></span></h2>
+	<h2>Welcome Back, <span th:text= "${customer.username}"></span></h2>
+	
+	<a th:href="@{'/order'}">Make an order</a> 
+	<p th:text="${confirmationMessage}" style="color:green"></p>
+	<h3> Past Orders History </h3>
+	<table border=1>
+		<thead>
+			<tr>
+				<th>Order Time</th>
+				<th>Order Status</th>
+				<th>Drink Name </th>
+				<th>Cup Size</th>
+				<th>Sweetener Level</th>
+				<th>Ice Level</th>
+				<th>Topping</th>
+				<th>Less Topping?</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="order:${orders}">
+				<td th:text="${order.orderTime}"></td>
+				<td th:text="${order.orderStatus}"></td>
+				<td th:text="${order.drinkName}"></td>
+				<td th:text="${order.cupSize}"></td>
+				<td th:text="${order.sweetenerLevel}"></td>
+				<td th:text="${order.iceLevel}"></td>
+				<td th:text="${order.toppingName}"></td>
+				<td th:text="${order.lessTopping}"></td>
+			</tr>
+		</tbody>
+		<tbody th:if="${#lists.isEmpty(orders)}">
+			<tr>
+				<td colspan="7">No past orders available.</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<a th:href="@{/logout}">Log out</a>
+	
 </body>
 </html>

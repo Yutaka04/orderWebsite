@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fdmgroup.OrderWebsite.model.customer.Order;
+import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
 import fdmgroup.OrderWebsite.model.store.Drink;
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
 import fdmgroup.OrderWebsite.model.store.Recipe;
@@ -18,7 +18,7 @@ import fdmgroup.OrderWebsite.repository.RecipeRepository;
  * @author = Danny
  */
 
-@Service
+@Service("orderRecipeService")
 public class OrderRecipeService {
 	
 	@Autowired
@@ -29,18 +29,17 @@ public class OrderRecipeService {
 	
 	
 	/**
-     * Creates an OrderRecipe based on the provided Order and Drink.
-     * Retrieves the necessary details from the Order and sets them in the OrderRecipe.
-     * If the drink names in the Order and Drink do not match, an error message is printed.
-     * @param order The Order containing customer and drink details.
+     * Creates an OrderRecipe based on the provided CustomerOrder and Drink.
+     * Retrieves the necessary details from the CustomerOrder and sets them in the OrderRecipe.
+     * If the drink names in the CustomerOrder and Drink do not match, an error message is printed.
+     * @param order The CustomerOrder containing customer and drink details.
      * @param drink The Drink to be associated with the OrderRecipe.
      */
-	public void createOrderRecipe(Order order, Drink drink) {
+	public void createOrderRecipe(CustomerOrder order, Drink drink) {
 		OrderRecipe orderRecipe = new OrderRecipe();
 		if(order.getDrinkName().equals(drink.getDrinkName())) {
 			orderRecipe.setCustomerId(order.getCustomer().getCustomerId());
 			orderRecipe.setDrinkName(order.getDrinkName());
-			orderRecipe.setOrderId(order.getOrderId());
 			orderRecipe.setCupSize(order.getCupSize());
 			orderRecipe.setToppingName(order.getToppingName());
 			orderRecipe.setToppingStatus(order.isToppingStatus());
@@ -75,7 +74,7 @@ public class OrderRecipeService {
      * @return            The Recipe matching the criteria, or null if not found.
      */
 	public Recipe findByDrinkNameAndRecipeSize(String drinkName, String recipeSize) {
-		List<Recipe> recipes = recipeRepo.findbyDrinkName(drinkName);
+		List<Recipe> recipes = recipeRepo.findAllByDrinkName(drinkName);
 		for (Recipe r:recipes) {
 			if(r.getRecipeSize().equals(recipeSize)) {
 				return r;

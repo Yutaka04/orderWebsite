@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>TeaSis - Place Order</title>
+</head>
+<body>
+	<h2>Place an Order</h2>
+	<p th:text="${confirmationMessage}" style="color:green"></p><p th:text="${errorMessage}" style="color:red"></p>
+	<form method="post" action="/home" th:object="${order}">
+		<h3>Drink Name</h3>
+		<select th:field="*{drinkName}" required>
+			<option th:each="drink : ${drinks}" th:value="${drink.drinkName}" th:text="${drink.drinkName}"></option>
+	        </select>
+        <h3>Select Cup Size</h3>
+        <select th:field="*{cupSize}" required>
+            <option value="M">M</option>
+            <option value="L">L</option>
+	    </select>
+        <h3>Sweetener Level</h3>
+        <select th:field="*{sweetenerLevel}" required>
+            <option value="120%">120%</option>
+            <option value="100%">100%</option>
+            <option value="70%">70%</option>
+            <option value="50%">50%</option>
+            <option value="25%">25% (Lowest for Honey)</option>
+            <option value="0%">0%</option>
+	    </select>
+        <h3>Ice Level</h3>
+        <select th:field="*{iceLevel}" required>
+            <option value="More Ice">More</option>
+            <option value="Normal Ice">Normal</option>
+            <option value="Less Ice">Less</option>
+            <option value="Little Bit Ice">Little Bit</option>
+            <option value="No ice">No Ice</option>
+	    </select>
+        <h3>Topping?</h3>
+        <select th:field="*{toppingName}" required>
+			<option th:each="topping : ${toppings}" th:value="${topping.toppingName}" th:text="${topping.toppingName}"></option>
+	        </select>
+        <h3>Less Topping?</h3>
+        <select th:field="*{lessTopping}" required>
+            <option value=true>Yes</option>
+            <option value=false>No</option>
+	    </select>
+        <h3></h3>
+        <input type="submit" value="Place Order">
+    </form>	
+
+</body>
+</html>

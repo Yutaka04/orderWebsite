@@ -19,5 +19,5 @@ public interface OrderRecipeRepository extends JpaRepository<OrderRecipe, Intege
      * @param orderId The ID of the associated order.
      * @return An Optional containing an order recipe associated with the given order ID, or empty if not found.
      */
-	Optional<OrderRecipe> findByOrderId(int orderId);
+	Optional<OrderRecipe> findByOrder_OrderId(int orderId);
 }

@@ -2,6 +2,7 @@ package fdmgroup.OrderWebsite.model.store;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ import jakarta.persistence.OneToMany;
  * It is used to organize and manage the available items on the menu.
  * @author = Danny
  */
-@Entity(name = "Menu")
+@Entity(name = "`Menu`")
 public class Menu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +27,8 @@ public class Menu {
 	/**
      * The list of drinks available in the menu.
      */
-	@OneToMany
-	@JoinTable(name = "menu_drink", 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "menu_drinks", 
 			joinColumns = @JoinColumn(name = "menuId"),
 			inverseJoinColumns = @JoinColumn(name = "drinkId"))
 	private List<Drink> drinks;
@@ -35,12 +36,16 @@ public class Menu {
 	/**
      * The list of toppings available in the menu.
      */
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "menu_toppings", 
 			joinColumns = @JoinColumn(name = "menuId"),
 			inverseJoinColumns = @JoinColumn(name = "toppingId"))
 	private List<Topping> toppings;
-
+	
+	public Menu() {
+		super();
+	}
+	
 	public int getMenuId() {
 		return menuId;
 	}

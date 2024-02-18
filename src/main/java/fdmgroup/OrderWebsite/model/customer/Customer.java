@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,16 +17,19 @@ import jakarta.persistence.Id;
  */
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "`Customer`")
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "customerId")
 	private int customerId;
-	private String username; 
+	@Column(name = "username")
+	private String username;
+	@Column(name = "password")
 	private String password;
 	
 	@OneToMany(mappedBy = "customer")
-	private List<Order> orders;
+	private List<CustomerOrder> orders;
 	
 	/**
      * Default constructor for JPA compliance.
@@ -65,11 +69,11 @@ public class Customer {
 		return customerId;
 	}
 
-	public List<Order> getOrders() {
+	public List<CustomerOrder> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<CustomerOrder> orders) {
 		this.orders = orders;
 	}
 	

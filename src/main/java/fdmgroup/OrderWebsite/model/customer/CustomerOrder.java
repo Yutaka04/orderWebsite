@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import fdmgroup.OrderWebsite.model.store.OrderRecipe;
 import fdmgroup.OrderWebsite.model.store.Topping;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,10 +22,11 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Order")
-public class Order {
+@Table(name = "`CustomerOrder`")
+public class CustomerOrder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "orderId")
 	private int orderId;
 	@Column(name = "OrderStatus")
 	private String orderStatus;
@@ -56,18 +58,18 @@ public class Order {
 	private double toppingMass;
 	
 	@ManyToOne
-	@JoinColumn(name = "orderId")
+	@JoinColumn(name = "customerId")
 	private Customer customer;
 	
-	@OneToOne(mappedBy = "order")
-	@JoinColumn(name = "orderId")
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	@JoinColumn(name = "orderRecipeId")
 	private OrderRecipe orderRecipe;
 
 	@OneToOne
-	@JoinColumn(name = "orderId")
+	@JoinColumn(name = "toppingId")
 	private Topping topping;
 	
-	public Order() {
+	public CustomerOrder() {
 		super();
 	}
 	
@@ -205,7 +207,7 @@ public class Order {
      * Sets the topping status based on whether a topping is selected.
      */
 	public void setToppingStatus() {
-		if(!getToppingName().isEmpty()) {
+		if(getToppingName().equals("N.A.")) {
 			this.toppingStatus = false;
 		}else {
 			this.toppingStatus = true;

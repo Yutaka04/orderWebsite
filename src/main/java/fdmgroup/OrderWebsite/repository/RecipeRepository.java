@@ -2,6 +2,9 @@ package fdmgroup.OrderWebsite.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import fdmgroup.OrderWebsite.model.store.Recipe;
@@ -19,6 +22,14 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
      * @param drinkName The name of the drink.
      * @return A list of recipes associated with the given drink name.
      */
-	List<Recipe> findbyDrinkName(String drinkName);
+	List<Recipe> findAllByDrinkName(String drinkName);
+	
+	/**
+     * Delete a list of recipes based on the given drink name.
+     * @param drinkName The name of the drink.
+     */
+	@Modifying
+    @Query("DELETE FROM Recipe r WHERE r.drinkName = :drinkName")
+    void deleteRecipesByDrinkName(@Param("drinkName") String drinkName);
 	
 }

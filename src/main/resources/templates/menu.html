@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+	<body>
+	<h2>TeaSis! - Menu</h2>
+	    <h3>TeaSis Drink Menu</h3>
+			<table border=1 th:if="${drinks != null and not #lists.isEmpty(drinks)}">
+				<thead>
+					<tr>
+						<th>Drink</th>
+						<th>Price (M)</th>
+						<th>Price (L)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="drink:${drinks}">
+						<td th:text="${drink.drinkName}"></td>
+						<td th:text="${drink.priceMedium}"></td>
+						<td th:text="${drink.priceLarge}"></td>
+					</tr>
+				</tbody>
+			</table>
+		<h3>TeaSis Topping Menu</h3>
+			<table border=1 th:if="${toppings != null and not #lists.isEmpty(toppings)}">
+				<thead>
+					<tr>
+						<th>Topping</th>
+						<th>Price (M)</th>
+						<th>Price (L)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="topping:${toppings}">
+						<td th:text="${topping.toppingName}"></td>
+						<td th:text="${topping.priceMedium}"></td>
+						<td th:text="${topping.priceLarge}"></td>
+					</tr>
+				</tbody>
+			</table>
+	    <a th:href="@{/}">Back to Home</a>
+	</body>
+</html>
+    
