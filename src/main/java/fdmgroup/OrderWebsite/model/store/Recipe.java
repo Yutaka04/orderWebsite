@@ -16,7 +16,7 @@ import jakarta.persistence.JoinColumn;
  * ingredients, sizes, and customization options.
  * @author= Danny
  */
-
+@Deprecated
 @Entity
 @Table(name = "`Recipe`")
 public class Recipe {

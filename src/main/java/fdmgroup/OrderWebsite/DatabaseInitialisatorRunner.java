@@ -11,8 +11,6 @@ public class DatabaseInitialisatorRunner implements CommandLineRunner{
 	@Autowired
 	private MenuService menuService;
 	
-	
-	
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println();

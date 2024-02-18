@@ -15,7 +15,7 @@ import fdmgroup.OrderWebsite.repository.RecipeRepository;
  * @author =  Danny
  */
 
-
+@Deprecated
 @Service("recipeService")
 public class RecipeService {
 	@Autowired

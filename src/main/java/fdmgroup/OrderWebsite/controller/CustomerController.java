@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,11 +17,8 @@ import fdmgroup.OrderWebsite.model.customer.Customer;
 import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
 import fdmgroup.OrderWebsite.service.CustomerService;
 import fdmgroup.OrderWebsite.service.DrinkService;
-import fdmgroup.OrderWebsite.service.OrderRecipeService;
 import fdmgroup.OrderWebsite.service.OrderService;
-import fdmgroup.OrderWebsite.service.RecipeService;
 import fdmgroup.OrderWebsite.service.ToppingService;
-import fdmgroup.OrderWebsite.service.MenuService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -31,22 +27,13 @@ public class CustomerController {
 	private OrderService orderService;
 	
 	@Autowired
-	private RecipeService recipeService;
-	
-	@Autowired
 	private DrinkService drinkService;
-	
-	@Autowired
-	private OrderRecipeService orderRecipeService;
 	
 	@Autowired
 	private ToppingService toppingService;
 	
 	@Autowired
 	private CustomerService customerService;
-	
-	@Autowired
-	private MenuService menuService;
 	
 	@GetMapping("/")
 	public String goToIndex() {
@@ -140,7 +127,7 @@ public class CustomerController {
 	 @PostMapping("/home")
 	 public String placeOrder(HttpSession session,@Validated CustomerOrder order, BindingResult bindingResult, Model model) {
 		 String username = (String) session.getAttribute("current_user");
-		 Customer customer = customerService.findCustomerByUsername(username);
+		 customerService.findCustomerByUsername(username);
 		 if (bindingResult.hasErrors()) {
 			 return "order";
 	        }

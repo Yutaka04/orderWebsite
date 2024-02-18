@@ -17,7 +17,7 @@ import fdmgroup.OrderWebsite.repository.RecipeRepository;
  * This class interacts with the OrderRecipeRepository and RecipeRepository.
  * @author = Danny
  */
-
+@Deprecated
 @Service("orderRecipeService")
 public class OrderRecipeService {
 	

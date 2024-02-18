@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
  * Contains details such as drink components, toppings, and customization.
  * @author Your Name
  */
-
+@Deprecated
 @Entity
 @Table(name = "`OrderRecipe`")
 public class OrderRecipe {

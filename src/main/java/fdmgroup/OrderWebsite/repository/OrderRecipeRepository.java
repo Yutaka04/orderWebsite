@@ -12,6 +12,7 @@ import fdmgroup.OrderWebsite.model.store.OrderRecipe;
  * Extends JpaRepository for basic CRUD operations and additional query methods.
  * @author = Danny
  */
+@Deprecated
 @Repository
 public interface OrderRecipeRepository extends JpaRepository<OrderRecipe, Integer>{
 	/**
