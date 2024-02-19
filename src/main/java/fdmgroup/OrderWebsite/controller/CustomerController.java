@@ -19,6 +19,7 @@ import fdmgroup.OrderWebsite.model.customer.Customer;
 import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
 import fdmgroup.OrderWebsite.service.CustomerService;
 import fdmgroup.OrderWebsite.service.DrinkService;
+import fdmgroup.OrderWebsite.service.MenuService;
 import fdmgroup.OrderWebsite.service.OrderService;
 import fdmgroup.OrderWebsite.service.ToppingService;
 import jakarta.servlet.http.HttpSession;
@@ -43,6 +44,9 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@Autowired
+	private MenuService menuService;
+	
 	private static final Logger log = LogManager.getLogger(CustomerController.class);
 	
 	/**
@@ -51,6 +55,7 @@ public class CustomerController {
      */
 	@GetMapping("/")
 	public String goToIndex() {
+		menuService.initialiseMenu();
 		return "index";
 	}
 	
