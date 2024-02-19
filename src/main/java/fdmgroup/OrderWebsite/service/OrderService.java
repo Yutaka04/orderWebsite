@@ -1,17 +1,15 @@
 package fdmgroup.OrderWebsite.service;
 
 import java.util.Optional;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fdmgroup.OrderWebsite.model.customer.Customer;
 import fdmgroup.OrderWebsite.model.customer.CustomerOrder;
-import fdmgroup.OrderWebsite.model.store.OrderRecipe;
 import fdmgroup.OrderWebsite.repository.CustomerRepository;
-import fdmgroup.OrderWebsite.repository.OrderRecipeRepository;
 import fdmgroup.OrderWebsite.repository.OrderRepository;
-import fdmgroup.OrderWebsite.repository.RecipeRepository;
 
 /**
  * Service class responsible for managing order recipes, including creation and retrieval.
@@ -27,11 +25,7 @@ public class OrderService {
 	@Autowired
 	private CustomerRepository customerRepo;
 	
-	@Autowired
-	private OrderRecipeRepository orderRecipeRepo;
-	
-	@Autowired
-	private RecipeRepository recipeRepo;
+	private static final Logger log = LogManager.getLogger(OrderService.class);
 	
 	/**
      * Creates an OrderRecipe based on the provided CustomerOrder and Drink.
@@ -47,17 +41,15 @@ public class OrderService {
 		order.setOrderTime();
 		order.setOrderStatus("Incomplete");
 		order.setCupSize(cupSize);
-		String sweetener = recipeRepo.findAllByDrinkName(drinkName).get(0).getSweetener();
-		order.setSweetener(sweetener);
 		order.setSweetenerLevel(sweetenerLevel);
-		order.setSweetenerModifier(sweetener, sweetenerLevel);
 		order.setIceLevel(iceLevel);
-		order.setIceLevelModifier(iceLevel);
 		order.setToppingName(toppingName);
 		order.setToppingStatus();
 		order.setLessTopping(lessTopping);
-		order.setToppingMass(cupSize,order.isToppingStatus(),order.isLessTopping());
 		orderRepo.save(order);
+		log.info("OrderSuccess: Order with id {}, Drink: {}, Size: {}, Sweetener Level: {}, Ice Level: {}, "
+				+ "Topping: {},Topping Staus: {}, Less Topping?: {} created!".formatted(order.getOrderId(),
+						drinkName,cupSize,sweetenerLevel,iceLevel,toppingName,toppingName.equals("N.A"),lessTopping));
 	}
 	
 	
@@ -73,39 +65,11 @@ public class OrderService {
 			Customer customer = customerOptional.get();
 			order.setCustomer(customer);
 			orderRepo.save(order);
+			log.info("OrderSuccess: Order with id" + order.getOrderId() + "added to customer with username " + customer.getUsername());
 			return true;
 		}else {
-			System.err.println(username + " does not exist");
+			log.error("OrderError: Customer with username " + username + " does not exist.");
 			return false;
-		}
-	}
-	
-	
-	/**
-     * Retrieves a list of all OrderRecipes stored in the repository.
-     * @return A list of OrderRecipes.
-     */
-	public void updateOrderStatus(CustomerOrder orderToFind, String status) {
-		Optional<CustomerOrder> orderOptional = orderRepo.findById(orderToFind.getOrderId());
-		if(orderOptional.isPresent()) {
-			CustomerOrder order = orderOptional.get();
-			order.setOrderStatus(status);
-			orderRepo.save(order);
-			
-			System.out.println("CustomerOrder Status updated!");
-			
-			Optional<OrderRecipe> orderRecipeOptional = orderRecipeRepo.findByOrder_OrderId(order.getOrderId());
-			if(orderRecipeOptional.isPresent()) {
-				OrderRecipe orderRecipe = orderRecipeOptional.get();
-				orderRecipe.setOrderStatus(status);
-				orderRecipeRepo.save(orderRecipe);
-				
-				System.out.println("CustomerOrder Status updated!");
-			}else {
-				System.err.println("CustomerOrder Recipe for "+ orderToFind.getOrderId() + " does not exist");
-			}
-		}else {
-			System.err.println("CustomerOrder for "+ orderToFind.getOrderId() + " does not exist");
 		}
 	}
 	

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class CustomerService {
 	@Autowired
 	private OrderRepository orderRepo;
 	
+	private static final Logger log = LogManager.getLogger(CustomerService.class);
+	
 	 /**
      * Registers a new customer in the system.
      * @param customer The Customer object to be registered.
@@ -36,9 +40,10 @@ public class CustomerService {
 		
 		if (customerOptional.isEmpty()) {
 			customerRepo.save(customer);
+			log.info("SaveSuccess: customer with id " + customer.getCustomerId() + "saved to Customer");
 			return true;
 		} else {
-			System.err.println(customer.getUsername() + "already exists");
+			log.error("RegistrationFailure: Registration failed as "+ customer.getUsername() + "already exists");
 			return false;
 		}
 	}
@@ -60,6 +65,7 @@ public class CustomerService {
      */
 	public List<Customer> findAllCustomers() {
 		// TODO Auto-generated method stub
+		log.info("RetrievalSuccess: List of customers found");
 		return customerRepo.findAll();
 	}
 
@@ -72,9 +78,10 @@ public class CustomerService {
 	public boolean verifyCustomerCredientials(String username, String password) {
 		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
 		if (customerOptional.isEmpty()) {
-			System.err.println("Username or password incorrect");
+			log.error("RegistrationFailure: Incorrect username or password entered");
 			return false;
 		}else {
+			log.info("LoginInfo: Correct username entered.");
 			return customerOptional.get().getPassword().equals(password);
 		}
 	}
@@ -87,6 +94,7 @@ public class CustomerService {
 	public Customer findCustomerByUsername(String username) {
 		Optional<Customer> customerOptional = customerRepo.findByUsername(username);
 		Customer customer = customerOptional.orElse(new Customer("defaultName","defaultPassword"));
+		log.info("RetrievalSuccess: customer with username " + username + " found");
 		return customer;
 	}
 	
@@ -101,7 +109,7 @@ public class CustomerService {
 			Customer customer = customerOptional.get();
 			return orderRepo.findAllByCustomer(customer);
 		}else {
-			System.err.println("No CustomerOrder found");
+			log.info("RetrievalNull: Empty list of customers retrieved as there are no orders made by customer with username " + username + ".");
 			return new ArrayList<CustomerOrder>();
 		}
 	}

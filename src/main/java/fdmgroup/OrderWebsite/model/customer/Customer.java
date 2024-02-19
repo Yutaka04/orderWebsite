@@ -31,9 +31,6 @@ public class Customer {
 	@OneToMany(mappedBy = "customer")
 	private List<CustomerOrder> orders;
 	
-	/**
-     * Default constructor for JPA compliance.
-     */
 	public Customer() {
 		super();
 	}
