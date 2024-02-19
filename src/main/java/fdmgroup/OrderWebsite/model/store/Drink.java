@@ -1,8 +1,5 @@
 package fdmgroup.OrderWebsite.model.store;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -32,8 +28,6 @@ public class Drink {
 	@Column(name = "Large_Price")
 	private double priceLarge;
 	
-	@OneToMany(mappedBy = "drink",cascade = CascadeType.ALL)
-	private List<Recipe> recipes;
 	
 	@ManyToOne
 	@JoinColumn(name = "menuId")
@@ -77,14 +71,7 @@ public class Drink {
 	public void setPriceLarge(double price) {
 		this.priceLarge = price;
 	}
-	
-	public List<Recipe> getRecipes(){
-		return recipes;
-	}
-	
-	public void setRecipes(List<Recipe> recipes) {
-		this.recipes = recipes;
-	}
+
 	
 	public Menu getMenu() {
 		return menu;

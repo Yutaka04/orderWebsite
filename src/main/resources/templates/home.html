@@ -13,8 +13,6 @@
 	<table border=1>
 		<thead>
 			<tr>
-				<th>Order Time</th>
-				<th>Order Status</th>
 				<th>Drink Name </th>
 				<th>Cup Size</th>
 				<th>Sweetener Level</th>
@@ -25,8 +23,6 @@
 		</thead>
 		<tbody>
 			<tr th:each="order:${orders}">
-				<td th:text="${order.orderTime}"></td>
-				<td th:text="${order.orderStatus}"></td>
 				<td th:text="${order.drinkName}"></td>
 				<td th:text="${order.cupSize}"></td>
 				<td th:text="${order.sweetenerLevel}"></td>

@@ -3,11 +3,12 @@ package fdmgroup.OrderWebsite.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fdmgroup.OrderWebsite.model.store.Drink;
-import fdmgroup.OrderWebsite.model.store.Recipe;
 import fdmgroup.OrderWebsite.repository.DrinkRepository;
 
 /**
@@ -20,8 +21,7 @@ public class DrinkService {
 	@Autowired
 	private DrinkRepository drinkRepo;
 	
-	@Autowired
-	private RecipeService recipeService;
+	private static final Logger log = LogManager.getLogger(DrinkService.class);
 	
 	/**
      * Initialise the drinks list if it has not happened.
@@ -94,6 +94,7 @@ public class DrinkService {
 		drink.setPriceMedium(priceMedium);
 		drink.setPriceLarge(priceLarge);
 		drinkRepo.save(drink);
+		log.info("DrinkSuccess: Drink with Name:{}, Medium Price:{}, Large Price:{} added.".formatted(drinkName, priceMedium,priceLarge));
 	}
 	
 	/**
@@ -103,34 +104,10 @@ public class DrinkService {
 	public void deleteDrink(Drink drink) {
 		Optional<Drink> drinkOptional = drinkRepo.findByDrinkName(drink.getDrinkName());
 		if (!drinkOptional.isEmpty()) {
+			log.info("DrinkSuccess: Drink with Name:{} removed.".formatted(drink.getDrinkName()));
 			drinkRepo.delete(drink);
-			System.out.println(drink.getDrinkName() + " is removed.");
 		} else {
-			System.err.println(drink.getDrinkName() + " is not found in Menu");
-		}
-	}
-	
-	/**
-	 * Retrieves the recipe for the specified recipe size.
-	 * @param drinkName The name of the drink.
-	 * @param recipeSize The size of the recipe to retrieve.
-	 * @return The Recipe object corresponding to the specified recipe size,
-	 *         or an empty Recipe object if no match is found.
-	 */
-	public Recipe getRecipeByDrinkNameAndRecipeSize(String drinkName,String recipeSize) {
-		Optional<Drink> drinkOptional = drinkRepo.findByDrinkName(drinkName);
-		if (!drinkOptional.isEmpty()) {
-			Drink drink = drinkOptional.get();
-			for(Recipe r:drink.getRecipes()) {
-				if(r.getRecipeSize().equals(recipeSize)) {
-					return r;
-				}
-			}
-				System.err.println(recipeSize + " not found");
-				return null;
-		} else {
-			System.err.println(drinkName + " is not found in Menu");
-			return null;
+			log.error("DrinkError: Drink with Name:{} is not found in Drink Menu.".formatted(drink.getDrinkName()));
 		}
 	}
 	
@@ -143,18 +120,20 @@ public class DrinkService {
 	public double getPriceByDrinkNameAndCupSize(String drinkName, String cupSize) {
 		if(drinkRepo.findByDrinkName(drinkName).isEmpty()) {
 			if(cupSize.equals("M")) {
+				log.info("DrinkSuccess: {} found in Drink Menu; {} returned.".formatted(drinkName,drinkRepo.findByDrinkName(drinkName).get().getPriceMedium()));
 				return drinkRepo.findByDrinkName(drinkName).get().getPriceMedium();
 			}else {
+				log.info("DrinkSuccess: {} found in Drink Menu; {} returned.".formatted(drinkName,drinkRepo.findByDrinkName(drinkName).get().getPriceLarge()));
 				return drinkRepo.findByDrinkName(drinkName).get().getPriceLarge();
 			}
 		}else {
-			System.err.println(drinkName + " not found!");
+			log.info("DrinkError: {} not found in Drink Menu; {} returned.".formatted(drinkName));
 			return 0;
 		}
 	}
 	
-	
 	public List<Drink> getAllDrinks(){
+		log.info("DrinkSuccess: Drink Menu retrieved.");
 		return drinkRepo.findAll();
 	}
 	
